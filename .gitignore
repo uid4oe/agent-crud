@@ -1,0 +1,24 @@
+node_modules
+dist
+*.log
+.DS_Store
+
+# Environment files
+.env
+.env.*
+.env.local
+*.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Build & cache
+.eslintcache
+coverage/
+*.tsbuildinfo
+
+# OS
+Thumbs.db

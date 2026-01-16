@@ -1,0 +1,22 @@
+{
+	"name": "agent-crud-app",
+	"version": "1.0.0",
+	"private": true,
+	"scripts": {
+		"dev": "pnpm kill-ports && pnpm -r --parallel dev",
+		"build": "pnpm -r build",
+		"kill-ports": "lsof -ti:3000,5173 | xargs kill -9 2>/dev/null || true",
+		"infra:up": "docker compose -f infra/docker-compose.yml up -d",
+		"infra:down": "docker compose -f infra/docker-compose.yml down",
+		"infra:logs": "docker compose -f infra/docker-compose.yml logs -f",
+		"db:generate": "pnpm --filter backend db:generate",
+		"db:migrate": "pnpm --filter backend db:migrate",
+		"db:push": "pnpm --filter backend db:push",
+		"db:reset": "pnpm --filter backend db:reset",
+		"stop": "pnpm infra:down",
+		"compose": "docker compose -f docker-compose.yml up -d"
+	},
+	"engines": {
+		"node": ">=18.0.0"
+	}
+}
