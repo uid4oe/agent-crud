@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from "vitest";
-import { FunctionTool } from "@google/adk";
+import type { FunctionTool } from "@google/adk";
 import { createCrossDomainTools } from "./cross-domain.tools.js";
 import { Task } from "../../../../domain/task/entities/task.entity.js";
 import { Note } from "../../../../domain/note/entities/note.entity.js";

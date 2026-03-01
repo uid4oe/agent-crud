@@ -4,8 +4,9 @@ import {
   stringifyContent,
   type Event,
 } from "@google/adk";
-import { Content, Part, GoogleGenAI } from "@google/genai";
-import { Langfuse } from "langfuse";
+import type { Content, Part} from "@google/genai";
+import { GoogleGenAI } from "@google/genai";
+import type { Langfuse } from "langfuse";
 import type {
   AiAgentPort,
   StreamChunk,
@@ -13,7 +14,7 @@ import type {
 } from "../../../domain/index.js";
 import { createRootAgent } from "./agents/root-agent.factory.js";
 import { getLangfuse } from "../observability/index.js";
-import { Logger } from "../../logging/index.js";
+import type { Logger } from "../../logging/index.js";
 import { AgentTimeoutError, withTimeout } from "./agent-timeout.js";
 import { collectCards, formatCards, extractRoutingAgent, formatRoutingInfo } from "./entity-card.collector.js";
 import type { AdkAgentAdapterConfig, EntityCard } from "./types.js";

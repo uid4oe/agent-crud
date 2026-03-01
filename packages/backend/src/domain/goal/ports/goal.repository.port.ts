@@ -1,4 +1,4 @@
-import { Goal } from "../entities/goal.entity.js";
+import type { Goal } from "../entities/goal.entity.js";
 import type {
   GoalStatus,
   GoalCategory,

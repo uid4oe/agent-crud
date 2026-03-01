@@ -23,7 +23,6 @@ import {
   AGENT_TEST_TIMEOUT,
   createAgentHarness,
   collectStream,
-  extractCards,
   expectItemsOrWarn,
   type AgentHarness,
 } from "./conftest.js";

@@ -13,7 +13,7 @@ const resetDatabase = async () => {
   console.log("Resetting database schema (dropping public schema)...");
 
   const sql = postgres(connectionString, { max: 1 });
-  const db = drizzle(sql);
+  const _db = drizzle(sql);
 
   try {
     await sql`DROP SCHEMA public CASCADE`;

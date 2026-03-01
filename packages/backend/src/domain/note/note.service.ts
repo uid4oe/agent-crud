@@ -1,5 +1,5 @@
-import { Note } from "./entities/note.entity.js";
-import { NoteRepositoryPort } from "./ports/note.repository.port.js";
+import type { Note } from "./entities/note.entity.js";
+import type { NoteRepositoryPort } from "./ports/note.repository.port.js";
 import { NoteNotFoundError, NoteTitleRequiredError } from "../shared/index.js";
 import type { PaginationInput, PaginatedResult } from "../shared/types.js";
 import type {

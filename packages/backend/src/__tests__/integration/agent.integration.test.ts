@@ -11,7 +11,6 @@ import {
   HAS_API_KEY,
   AGENT_TEST_TIMEOUT,
   createAgentHarness,
-  collectStream,
   extractCards,
   hasRoutingInfo,
   type AgentHarness,

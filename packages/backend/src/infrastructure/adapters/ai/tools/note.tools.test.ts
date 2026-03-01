@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { FunctionTool } from "@google/adk";
+import type { FunctionTool } from "@google/adk";
 import { createNoteTools } from "./note.tools.js";
 import { Note } from "../../../../domain/note/entities/note.entity.js";
 import type { NoteRepositoryPort } from "../../../../domain/note/ports/note.repository.port.js";

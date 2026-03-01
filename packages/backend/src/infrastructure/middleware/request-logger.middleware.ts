@@ -8,8 +8,8 @@
  * - Request duration
  */
 
-import { Request, Response, NextFunction } from "express";
-import { Logger } from "../logging/index.js";
+import type { Request, Response, NextFunction } from "express";
+import type { Logger } from "../logging/index.js";
 import {
   createRequestContext,
   runWithContext,

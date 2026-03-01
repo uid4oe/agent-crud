@@ -1,4 +1,4 @@
-import { Note } from "../entities/note.entity.js";
+import type { Note } from "../entities/note.entity.js";
 import type { NoteCategory, CreateNoteProps, UpdateNoteProps } from "../types.js";
 import type { PaginationInput, PaginatedResult } from "../../shared/types.js";
 

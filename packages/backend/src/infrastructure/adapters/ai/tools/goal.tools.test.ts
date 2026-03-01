@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { FunctionTool } from "@google/adk";
+import type { FunctionTool } from "@google/adk";
 import { createGoalTools } from "./goal.tools.js";
 import { Goal } from "../../../../domain/goal/entities/goal.entity.js";
 import type { GoalRepositoryPort } from "../../../../domain/goal/ports/goal.repository.port.js";

@@ -1,9 +1,10 @@
-import { Conversation } from "./entities/conversation.entity.js";
-import { Message } from "./entities/message.entity.js";
-import { MessageRepositoryPort } from "./ports/message.repository.port.js";
-import { ConversationRepositoryPort } from "./ports/conversation.repository.port.js";
+import type { Conversation } from "./entities/conversation.entity.js";
+import type { Message } from "./entities/message.entity.js";
+import type { MessageRepositoryPort } from "./ports/message.repository.port.js";
+import type { ConversationRepositoryPort } from "./ports/conversation.repository.port.js";
+import type {
+  AiAgentPort} from "../shared/index.js";
 import {
-  AiAgentPort,
   ConversationNotFoundError,
   MessageNotFoundError,
   MessageNotEditableError,

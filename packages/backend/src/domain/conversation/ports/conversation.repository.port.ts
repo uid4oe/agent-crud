@@ -1,4 +1,4 @@
-import { Conversation } from "../entities/conversation.entity.js";
+import type { Conversation } from "../entities/conversation.entity.js";
 import type { CreateConversationProps } from "../types.js";
 
 export interface ConversationRepositoryPort {

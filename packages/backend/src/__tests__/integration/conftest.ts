@@ -24,7 +24,6 @@ import type {
   CreateGoalProps,
   UpdateGoalProps,
   MilestoneProps,
-  CreateMilestoneProps,
 } from "../../domain/goal/types.js";
 import type { PaginationInput, PaginatedResult } from "../../domain/shared/types.js";
 

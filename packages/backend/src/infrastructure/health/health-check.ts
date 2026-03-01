@@ -12,10 +12,11 @@
  * - Startup: Has the application finished starting?
  */
 
-import { Router, Request, Response } from "express";
-import { DbClient } from "../adapters/persistence/drizzle/client.js";
+import type { Request, Response } from "express";
+import { Router } from "express";
+import type { DbClient } from "../adapters/persistence/drizzle/client.js";
 import { sql } from "drizzle-orm";
-import { Logger } from "../logging/index.js";
+import type { Logger } from "../logging/index.js";
 
 export type HealthStatus = "healthy" | "unhealthy" | "degraded";
 

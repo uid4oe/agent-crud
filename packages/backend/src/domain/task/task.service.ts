@@ -1,5 +1,5 @@
-import { Task } from "./entities/task.entity.js";
-import { TaskRepositoryPort } from "./ports/task.repository.port.js";
+import type { Task } from "./entities/task.entity.js";
+import type { TaskRepositoryPort } from "./ports/task.repository.port.js";
 import { TaskNotFoundError, TaskTitleRequiredError } from "../shared/index.js";
 import type { PaginationInput, PaginatedResult } from "../shared/types.js";
 import type {

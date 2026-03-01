@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { router, publicProcedure } from "./trpc.js";
-import { TaskService, TaskStatusValues, TaskPriorityValues } from "../../domain/index.js";
-import type { TaskStatus, TaskPriority } from "../../domain/index.js";
+import { TaskStatusValues, TaskPriorityValues } from "../../domain/index.js";
+import type { TaskStatus, TaskPriority , TaskService} from "../../domain/index.js";
 
 const taskStatusSchema = z.enum(TaskStatusValues);
 const taskPrioritySchema = z.enum(TaskPriorityValues);

@@ -1,5 +1,5 @@
-import { Goal } from "./entities/goal.entity.js";
-import { GoalRepositoryPort } from "./ports/goal.repository.port.js";
+import type { Goal } from "./entities/goal.entity.js";
+import type { GoalRepositoryPort } from "./ports/goal.repository.port.js";
 import { GoalNotFoundError, GoalTitleRequiredError } from "../shared/index.js";
 import type { PaginationInput, PaginatedResult } from "../shared/types.js";
 import type {

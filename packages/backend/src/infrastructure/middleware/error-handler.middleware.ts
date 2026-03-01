@@ -8,10 +8,10 @@
  * - Returns consistent error format
  */
 
-import { Request, Response, NextFunction } from "express";
+import type { Request, Response, NextFunction } from "express";
 import { TRPCError } from "@trpc/server";
 import { AppError, wrapError } from "../../domain/index.js";
-import { Logger } from "../logging/index.js";
+import type { Logger } from "../logging/index.js";
 import { getRequestId } from "./request-context.js";
 
 export function createErrorHandlerMiddleware(logger: Logger) {

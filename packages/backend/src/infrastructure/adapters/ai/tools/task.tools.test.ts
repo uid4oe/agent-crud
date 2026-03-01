@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { FunctionTool } from "@google/adk";
+import type { FunctionTool } from "@google/adk";
 import { createTaskTools } from "./task.tools.js";
 import { Task } from "../../../../domain/task/entities/task.entity.js";
 import type { TaskRepositoryPort } from "../../../../domain/task/ports/task.repository.port.js";

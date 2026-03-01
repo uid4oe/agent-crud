@@ -1,4 +1,4 @@
-import { Task } from "../entities/task.entity.js";
+import type { Task } from "../entities/task.entity.js";
 import type { TaskStatus, CreateTaskProps, UpdateTaskProps } from "../types.js";
 import type { PaginationInput, PaginatedResult } from "../../shared/types.js";
 

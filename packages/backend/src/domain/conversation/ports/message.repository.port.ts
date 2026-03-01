@@ -1,4 +1,4 @@
-import { Message } from "../entities/message.entity.js";
+import type { Message } from "../entities/message.entity.js";
 import type { CreateMessageProps } from "../types.js";
 
 export interface MessageRepositoryPort {

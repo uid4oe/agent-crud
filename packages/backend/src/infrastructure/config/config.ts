@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 import path from "path";
 import { z } from "zod";
-import type { Environment, Config } from "./types.js";
+import type { Config } from "./types.js";
 
 // Load from monorepo root .env
 dotenv.config({ path: path.resolve(process.cwd(), "../../.env") });

@@ -6,7 +6,6 @@ import {
   createTRPCErrorFormatter,
 } from "./error-handler.middleware.js";
 import {
-  AppError,
   TaskNotFoundError,
   ValidationError,
   AiServiceError,
