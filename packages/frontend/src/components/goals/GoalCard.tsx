@@ -1,18 +1,11 @@
 import { useCallback } from "react";
-import { Pencil, Trash2, Dumbbell, Apple, Brain, Moon, MoreHorizontal, Calendar, ExternalLink } from "lucide-react";
+import { Pencil, Trash2, Calendar, ExternalLink } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "../ui/button";
 import { cn, timeAgo } from "../../lib/utils";
 import { MilestoneList } from "./MilestoneList";
-import type { Goal, GoalCategory } from "../../types";
-
-const CATEGORY_CONFIG: Record<GoalCategory, { label: string; icon: typeof Dumbbell; color: string }> = {
-  fitness: { label: "Fitness", icon: Dumbbell, color: "bg-orange-50 text-orange-700" },
-  nutrition: { label: "Nutrition", icon: Apple, color: "bg-green-50 text-green-700" },
-  mindfulness: { label: "Mindfulness", icon: Brain, color: "bg-purple-50 text-purple-700" },
-  sleep: { label: "Sleep", icon: Moon, color: "bg-indigo-50 text-indigo-700" },
-  other: { label: "Other", icon: MoreHorizontal, color: "bg-gray-100 text-gray-700" },
-};
+import { CATEGORY_CONFIG } from "./goal-card.data";
+import type { Goal } from "../../types";
 
 export interface GoalCardProps {
   goal: Goal;
@@ -83,7 +76,7 @@ export function GoalCard({ goal, onEdit, onDelete, onToggleMilestone, linkTo, co
       <h3
         className={cn(
           "font-semibold text-ink leading-snug",
-          compact ? "text-sm mb-1" : "text-[16px] mb-1.5"
+          compact ? "text-sm mb-1" : "text-[15px] mb-1.5"
         )}
       >
         {goal.title}
@@ -93,7 +86,7 @@ export function GoalCard({ goal, onEdit, onDelete, onToggleMilestone, linkTo, co
         <p
           className={cn(
             "leading-relaxed text-ink-secondary whitespace-pre-wrap",
-            compact ? "text-xs line-clamp-2 mb-2.5" : "text-[14px] mb-3"
+            compact ? "text-xs line-clamp-2 mb-2.5" : "text-[13px] mb-3"
           )}
         >
           {goal.description}
@@ -149,10 +142,10 @@ export function GoalCard({ goal, onEdit, onDelete, onToggleMilestone, linkTo, co
   );
 
   const wrapperClassName = cn(
-    "group group/card relative flex flex-col transition-all duration-200",
+    "group group/card relative flex flex-col transition-all duration-200 border",
     compact
-      ? "p-3.5 rounded-2xl bg-white border border-gray-200 hover:border-gray-300 hover:shadow-[0_2px_8px_rgba(0,0,0,0.06)] max-w-md"
-      : "bg-white border border-gray-200 hover:border-gray-300 hover:shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-2xl p-5"
+      ? "p-3.5 rounded-2xl bg-white border-gray-200 hover:border-gray-300 hover:shadow-[0_2px_8px_rgba(0,0,0,0.06)] max-w-md"
+      : "p-5 rounded-2xl bg-white border-gray-200 hover:border-gray-300 hover:shadow-[0_4px_12px_rgba(0,0,0,0.05)]"
   );
 
   if (linkTo) {

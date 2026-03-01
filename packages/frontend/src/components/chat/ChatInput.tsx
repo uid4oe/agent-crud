@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { ArrowUp, Loader2 } from "lucide-react";
+import { cn } from "../../lib/utils";
 
 interface ChatInputProps {
 	onSend: (message: string) => void;
@@ -51,10 +52,10 @@ export function ChatInput({ onSend, disabled, autoFocus }: ChatInputProps) {
 	return (
 		<div className="w-full">
 			<div
-				className={`
-          relative rounded-3xl bg-surface transition-all duration-300
-          ${isFocused ? "bg-white shadow-md ring-2 ring-purple" : "hover:bg-surface-hover"}
-        `}
+				className={cn(
+					"relative rounded-3xl bg-surface transition-all duration-300",
+					isFocused ? "bg-white shadow-md ring-2 ring-purple" : "hover:bg-surface-hover"
+				)}
 			>
 				<form
 					onSubmit={handleSubmit}
@@ -78,15 +79,12 @@ export function ChatInput({ onSend, disabled, autoFocus }: ChatInputProps) {
 						type="submit"
 						aria-label="Send message"
 						disabled={!input.trim() || disabled}
-						className={`
-              flex items-center justify-center p-2 rounded-full flex-shrink-0 ml-2 mb-[2px]
-              transition-all duration-200
-              ${
-								input.trim() && !disabled
-									? "bg-black text-white hover:bg-gray-800 scale-100"
-									: "bg-transparent text-gray-400 cursor-not-allowed scale-95"
-							}
-            `}
+						className={cn(
+							"flex items-center justify-center p-2 rounded-full flex-shrink-0 ml-2 mb-[2px] transition-all duration-200",
+							input.trim() && !disabled
+								? "bg-black text-white hover:bg-gray-800 scale-100"
+								: "bg-transparent text-gray-400 cursor-not-allowed scale-95"
+						)}
 					>
 						{disabled ? (
 							<Loader2 className="h-5 w-5 animate-spin" />

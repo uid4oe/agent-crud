@@ -1,75 +1,88 @@
-import { Compass, Lightbulb, Pencil, Target, Loader2 } from "lucide-react";
+import { Loader2 } from "lucide-react";
+import { PRIMARY_SUGGESTIONS, QUICK_ACTIONS } from "./welcome-screen.data";
 
 interface WelcomeScreenProps {
-  onNewChat: (initialMessage?: string) => void;
-  isCreating: boolean;
+	onNewChat: (initialMessage?: string) => void;
+	isCreating: boolean;
 }
 
-const SUGGESTIONS = [
-  {
-    icon: Lightbulb,
-    title: "Manage tasks",
-    prompt: "Show all my tasks and summarize them",
-  },
-  {
-    icon: Pencil,
-    title: "Make notes",
-    prompt: "Add a note about tomorrow's meeting",
-  },
-  {
-    icon: Target,
-    title: "Set goals",
-    prompt: "Create a fitness goal to run 5K with milestones",
-  },
-  {
-    icon: Compass,
-    title: "Track wellness",
-    prompt: "Show my wellness goals and their progress",
-  },
-];
-
 export function WelcomeScreen({ onNewChat, isCreating }: WelcomeScreenProps) {
-  return (
-    <div className="flex-1 flex flex-col items-center pt-16 md:pt-24 p-6 md:p-8">
-      <div className="w-full max-w-4xl flex flex-col items-center mb-12">
-        <h1 className="text-5xl font-medium bg-gradient-to-r from-[#4285F4] via-[#9B72CB] to-[#D96570] text-transparent bg-clip-text leading-tight tracking-tight mt-10">
-          Hello,
-        </h1>
-        <h1 className="text-4xl font-medium text-ink-faded leading-tight tracking-tight mt-1">
-          How can I help you today?
-        </h1>
-      </div>
+	return (
+		<div className="h-full flex flex-col items-center justify-center p-6 md:p-8">
+			{/* Hero */}
+			<div className="w-full max-w-4xl flex flex-col items-center mb-10">
+				<h1 className="text-4xl md:text-5xl font-medium bg-gradient-to-r from-[#4285F4] via-[#9B72CB] to-[#D96570] text-transparent bg-clip-text leading-tight tracking-tight">
+					Hello,
+				</h1>
+				<h1 className="text-3xl md:text-4xl font-medium text-ink-faded leading-tight tracking-tight mt-1">
+					How can I help you today?
+				</h1>
+				<p className="text-[13px] text-ink-faded mt-3 text-center">
+					AI agents for tasks, notes, and goals — ask anything or try a suggestion below
+				</p>
+			</div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl w-full">
-        {SUGGESTIONS.map(({ icon: Icon, title, prompt }) => (
-          <button
-            key={title}
-            onClick={() => onNewChat(prompt)}
-            disabled={isCreating}
-            className="flex flex-col items-start gap-3 p-5 bg-surface hover:bg-white rounded-3xl text-left transition-all duration-200 cursor-pointer w-full h-44 border border-transparent hover:border-gray-100 hover:shadow-[0_4px_12px_rgba(0,0,0,0.05)] hover:-translate-y-0.5 active:scale-[0.98] disabled:opacity-50 relative group"
-          >
-            <div className="flex flex-col flex-1 w-full justify-between h-full">
-              <div>
-                <div className="text-[16px] text-gray-900 font-medium mb-1.5">
-                  {title}
-                </div>
-                <div className="text-[14px] text-gray-500 line-clamp-2 leading-relaxed">
-                  {prompt}
-                </div>
-              </div>
-              <div className="w-9 h-9 mt-4 self-end rounded-full bg-white group-hover:bg-surface transition-all duration-200 flex items-center justify-center shadow-sm">
-                <Icon className="h-4 w-4 text-gray-700 group-hover:text-blue-600 transition-all duration-150" />
-              </div>
-            </div>
-          </button>
-        ))}
-      </div>
-      {/* Hidden button to use onNewChat safely if users type without clicking a card */}
-      {isCreating && (
-        <div className="fixed inset-0 bg-white/50 backdrop-blur-sm z-50 flex items-center justify-center">
-          <Loader2 className="w-8 h-8 animate-spin text-blue-500" />
-        </div>
-      )}
-    </div>
-  );
+			{/* Primary suggestion cards */}
+			<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 max-w-4xl w-full">
+				{PRIMARY_SUGGESTIONS.map(({ icon: Icon, title, description, prompt }, i) => (
+					<button
+						key={title}
+						onClick={() => onNewChat(prompt)}
+						disabled={isCreating}
+						className="flex flex-col items-start p-5 bg-surface rounded-2xl text-left transition-all duration-200 cursor-pointer w-full h-40 border border-transparent hover:border-purple/60 hover:shadow-soft hover:-translate-y-0.5 active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none group animate-message-in"
+						style={{
+							animationDelay: `${i * 75}ms`,
+							animationFillMode: "backwards",
+						}}
+					>
+						<div className="flex flex-col flex-1 w-full justify-between h-full">
+							<div>
+								<div className="text-[15px] text-ink font-medium mb-0.5">
+									{title}
+								</div>
+								{description && (
+									<div className="text-[12px] text-ink-faded">
+										{description}
+									</div>
+								)}
+							</div>
+							<div className="w-8 h-8 self-end rounded-full bg-white group-hover:bg-purple-light transition-all duration-200 flex items-center justify-center shadow-sm">
+								<Icon className="h-4 w-4 text-ink-secondary group-hover:text-purple-text transition-colors duration-150" />
+							</div>
+						</div>
+					</button>
+				))}
+			</div>
+
+			{/* Quick actions */}
+			<div
+				className="flex flex-col items-center gap-3 mt-8 max-w-4xl w-full animate-message-in"
+				style={{ animationDelay: "350ms", animationFillMode: "backwards" }}
+			>
+				<span className="text-[11px] text-ink-faded font-medium uppercase tracking-widest">
+					Quick actions
+				</span>
+				<div className="flex flex-wrap justify-center gap-2">
+					{QUICK_ACTIONS.map(({ icon: Icon, label, prompt, color }) => (
+						<button
+							key={label}
+							onClick={() => onNewChat(prompt)}
+							disabled={isCreating}
+							className="inline-flex items-center gap-2 px-4 py-2 bg-surface hover:bg-purple-light rounded-full text-[13px] text-ink-secondary hover:text-purple-text border border-surface-hover hover:border-purple/40 transition-all duration-200 cursor-pointer active:scale-[0.97] disabled:opacity-50 disabled:pointer-events-none"
+						>
+							<Icon className={`h-3.5 w-3.5 ${color}`} />
+							{label}
+						</button>
+					))}
+				</div>
+			</div>
+
+			{isCreating && (
+				<div className="mt-6 flex items-center gap-2 text-sm text-ink-secondary animate-message-in">
+					<Loader2 className="w-4 h-4 animate-spin text-purple-text" />
+					Starting conversation...
+				</div>
+			)}
+		</div>
+	);
 }

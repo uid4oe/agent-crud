@@ -73,7 +73,7 @@ function ChatPageInner() {
               />
             </div>
           ) : (
-            <div className="h-full pt-10 md:pt-0">
+            <div className="h-full">
               <WelcomeScreen onNewChat={startNewConversation} isCreating={isCreating} />
             </div>
           )}

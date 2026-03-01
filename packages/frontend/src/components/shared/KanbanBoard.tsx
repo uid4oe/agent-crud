@@ -11,6 +11,7 @@ import {
   type DragStartEvent,
   type DragEndEvent,
 } from "@dnd-kit/core";
+import { Inbox } from "lucide-react";
 import { cn } from "../../lib/utils";
 
 export interface KanbanColumn<T extends string = string> {
@@ -27,6 +28,7 @@ interface KanbanBoardProps<TItem, TColumn extends string> {
   renderItem: (item: TItem) => ReactNode;
   getItemKey: (item: TItem) => string;
   onItemMoved?: (item: TItem, fromColumn: TColumn, toColumn: TColumn) => void;
+  layout?: "columns" | "rows";
 }
 
 function DraggableItem<TColumn extends string>({
@@ -93,6 +95,7 @@ export function KanbanBoard<TItem, TColumn extends string>({
   renderItem,
   getItemKey,
   onItemMoved,
+  layout = "columns",
 }: KanbanBoardProps<TItem, TColumn>) {
   const [activeItem, setActiveItem] = useState<TItem | null>(null);
   const isDraggable = !!onItemMoved;
@@ -129,7 +132,48 @@ export function KanbanBoard<TItem, TColumn extends string>({
     onItemMoved(item, fromColumn, toColumn);
   };
 
-  const board = (
+  const board = layout === "rows" ? (
+    <div className="flex flex-col gap-6">
+      {columns.map((col) => {
+        const columnItems = items.filter(
+          (item) => getColumnKey(item) === col.key,
+        );
+        if (columnItems.length === 0) return null;
+        return (
+          <div key={col.key}>
+            <div className="flex items-center gap-2 mb-3 px-1">
+              <h3 className="text-sm font-semibold text-gray-700">
+                {col.label}
+              </h3>
+              <span className="text-xs text-gray-400 bg-gray-100 rounded-full px-2 py-0.5">
+                {columnItems.length}
+              </span>
+            </div>
+            <DroppableColumn
+              id={col.key}
+              className={cn(
+                "rounded-2xl p-3",
+                col.color,
+              )}
+            >
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                {columnItems.map((item) => (
+                  <DraggableItem
+                    key={getItemKey(item)}
+                    id={getItemKey(item)}
+                    columnKey={col.key}
+                    disabled={!isDraggable}
+                  >
+                    {renderItem(item)}
+                  </DraggableItem>
+                ))}
+              </div>
+            </DroppableColumn>
+          </div>
+        );
+      })}
+    </div>
+  ) : (
     <div
       className={cn(
         "grid grid-cols-1 gap-6 min-h-0",
@@ -159,9 +203,12 @@ export function KanbanBoard<TItem, TColumn extends string>({
               )}
             >
               {columnItems.length === 0 ? (
-                <p className="text-xs text-gray-400 text-center pt-8">
-                  {col.emptyText}
-                </p>
+                <div className="flex flex-col items-center justify-center pt-8 pb-4">
+                  <Inbox className="h-8 w-8 text-gray-300 mb-2" />
+                  <p className="text-xs text-gray-400 text-center">
+                    {col.emptyText}
+                  </p>
+                </div>
               ) : (
                 columnItems.map((item) => (
                   <DraggableItem
