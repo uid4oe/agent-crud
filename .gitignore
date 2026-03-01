@@ -16,6 +16,7 @@ dist
 *.swo
 
 # Build & cache
+.vite/
 .eslintcache
 coverage/
 *.tsbuildinfo
