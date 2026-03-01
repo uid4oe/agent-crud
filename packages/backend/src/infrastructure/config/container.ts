@@ -1,106 +1,105 @@
-// Domain
 import {
-  TaskRepositoryPort,
-  ConversationRepositoryPort,
-  MessageRepositoryPort,
-  AiAgentPort,
-  ListTasksService,
-  GetTaskService,
-  CreateTaskService,
-  UpdateTaskService,
-  DeleteTaskService,
-  CreateConversationService,
-  GetConversationService,
-  ListConversationsService,
-  DeleteConversationService,
-  GetMessagesService,
-  ChatService,
+  TaskService,
+  NoteService,
+  GoalService,
+  ConversationService,
 } from "../../domain/index.js";
 
-// Adapters
 import {
   DrizzleTaskRepository,
   DrizzleConversationRepository,
   DrizzleMessageRepository,
+  DrizzleNoteRepository,
+  DrizzleGoalRepository,
+  createDbClient,
 } from "../adapters/persistence/drizzle/index.js";
-import { GeminiAgentAdapter } from "../adapters/ai/gemini/index.js";
-import { TaskToolExecutor } from "../adapters/ai/tools/index.js";
-import { taskToolsDefinition } from "../adapters/ai/tools/index.js";
-import { TASK_AGENT_SYSTEM_PROMPT } from "../adapters/ai/prompts/index.js";
+import { AdkAgentAdapter } from "../adapters/ai/adk-agent.adapter.js";
 
-export interface Container {
-  // Repositories
-  taskRepository: TaskRepositoryPort;
-  conversationRepository: ConversationRepositoryPort;
-  messageRepository: MessageRepositoryPort;
+import { createLogger } from "../logging/index.js";
+import { RateLimiter, RateLimitPresets } from "../middleware/index.js";
+import {
+  HealthCheckRegistry,
+  createDatabaseHealthCheck,
+  createMemoryHealthCheck,
+  createAiHealthCheck,
+} from "../health/index.js";
+import type { Config, Container } from "./types.js";
 
-  // AI
-  aiAgent: AiAgentPort;
+export function createContainer(config: Config): Container {
+  const logger = createLogger({
+    level: config.logging.level,
+    format: config.logging.format,
+    enabled: true,
+  });
 
-  // Task Services
-  listTasksService: ListTasksService;
-  getTaskService: GetTaskService;
-  createTaskService: CreateTaskService;
-  updateTaskService: UpdateTaskService;
-  deleteTaskService: DeleteTaskService;
+  logger.info("Initializing container", {
+    env: config.env,
+    port: config.server.port,
+  });
 
-  // Conversation Services
-  createConversationService: CreateConversationService;
-  getConversationService: GetConversationService;
-  listConversationsService: ListConversationsService;
-  deleteConversationService: DeleteConversationService;
-  getMessagesService: GetMessagesService;
-  chatService: ChatService;
-}
+  const db = createDbClient(config.database.url);
 
-export function createContainer(): Container {
-  // Adapters - Repositories
-  const taskRepository = new DrizzleTaskRepository();
-  const conversationRepository = new DrizzleConversationRepository();
-  const messageRepository = new DrizzleMessageRepository();
+  const rateLimiter = new RateLimiter({
+    ...RateLimitPresets.standard(),
+    enabled: config.rateLimit.enabled,
+    windowMs: config.rateLimit.windowMs,
+    maxRequests: config.rateLimit.maxRequests,
+  });
 
-  // Adapters - AI
-  const toolExecutor = new TaskToolExecutor(taskRepository);
-  const aiAgent = new GeminiAgentAdapter(
+  const healthCheckRegistry = new HealthCheckRegistry(logger, "1.0.0");
+  healthCheckRegistry.register("database", createDatabaseHealthCheck(db));
+  healthCheckRegistry.register("memory", createMemoryHealthCheck(500));
+  healthCheckRegistry.register("ai", createAiHealthCheck(config.gemini.apiKey, config.gemini.model));
+
+  const taskRepository = new DrizzleTaskRepository(db);
+  const conversationRepository = new DrizzleConversationRepository(db);
+  const messageRepository = new DrizzleMessageRepository(db);
+  const noteRepository = new DrizzleNoteRepository(db);
+  const goalRepository = new DrizzleGoalRepository(db);
+
+  const aiAgent = new AdkAgentAdapter(
     {
-      apiKey: process.env.GEMINI_API_KEY || "",
-      model: process.env.GEMINI_MODEL || "gemini-1.5-flash",
-      systemPrompt: TASK_AGENT_SYSTEM_PROMPT,
-      tools: taskToolsDefinition,
+      taskRepository,
+      noteRepository,
+      goalRepository,
+      model: config.gemini.model,
+      routerModel: config.gemini.routerModel,
+      apiKey: config.gemini.apiKey,
     },
-    toolExecutor
+    logger
   );
 
-  // Task Services
-  const listTasksService = new ListTasksService(taskRepository);
-  const getTaskService = new GetTaskService(taskRepository);
-  const createTaskService = new CreateTaskService(taskRepository);
-  const updateTaskService = new UpdateTaskService(taskRepository);
-  const deleteTaskService = new DeleteTaskService(taskRepository);
+  const taskService = new TaskService(taskRepository);
+  const noteService = new NoteService(noteRepository);
+  const goalService = new GoalService(goalRepository);
+  const conversationService = new ConversationService(
+    conversationRepository,
+    messageRepository,
+    aiAgent
+  );
 
-  // Conversation Services
-  const createConversationService = new CreateConversationService(conversationRepository);
-  const getConversationService = new GetConversationService(conversationRepository);
-  const listConversationsService = new ListConversationsService(conversationRepository);
-  const deleteConversationService = new DeleteConversationService(conversationRepository);
-  const getMessagesService = new GetMessagesService(messageRepository);
-  const chatService = new ChatService(messageRepository, conversationRepository, aiAgent);
+  async function shutdown(): Promise<void> {
+    logger.info("Shutting down container...");
+    rateLimiter.destroy();
+    logger.info("Container shutdown complete");
+  }
 
   return {
+    config,
+    logger,
+    db,
+    rateLimiter,
+    healthCheckRegistry,
     taskRepository,
     conversationRepository,
     messageRepository,
+    noteRepository,
+    goalRepository,
     aiAgent,
-    listTasksService,
-    getTaskService,
-    createTaskService,
-    updateTaskService,
-    deleteTaskService,
-    createConversationService,
-    getConversationService,
-    listConversationsService,
-    deleteConversationService,
-    getMessagesService,
-    chatService,
+    taskService,
+    noteService,
+    goalService,
+    conversationService,
+    shutdown,
   };
 }
