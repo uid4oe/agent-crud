@@ -1,22 +1,22 @@
 import {
+  type Event,
   InMemoryRunner,
   isFinalResponse,
   stringifyContent,
-  type Event,
 } from "@google/adk";
 import type { Content, Part} from "@google/genai";
 import { GoogleGenAI } from "@google/genai";
 import type { Langfuse } from "langfuse";
 import type {
   AiAgentPort,
-  StreamChunk,
   HistoryMessage,
+  StreamChunk,
 } from "../../../domain/index.js";
-import { createRootAgent } from "./agents/root-agent.factory.js";
-import { getLangfuse } from "../observability/index.js";
 import type { Logger } from "../../logging/index.js";
+import { getLangfuse } from "../observability/index.js";
 import { AgentTimeoutError, withTimeout } from "./agent-timeout.js";
-import { collectCards, formatCards, extractRoutingAgent, formatRoutingInfo } from "./entity-card.collector.js";
+import { createRootAgent } from "./agents/root-agent.factory.js";
+import { collectCards, extractRoutingAgent, formatCards, formatRoutingInfo } from "./entity-card.collector.js";
 import type { AdkAgentAdapterConfig, EntityCard } from "./types.js";
 
 /** Max time (ms) for a single chat() or chatStream() call before aborting. */

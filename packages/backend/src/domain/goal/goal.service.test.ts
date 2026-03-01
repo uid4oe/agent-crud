@@ -1,11 +1,11 @@
-import { describe, it, expect, beforeEach, vi } from "vitest";
-import { GoalService } from "./goal.service.js";
-import type { GoalRepositoryPort } from "./ports/goal.repository.port.js";
-import { Goal } from "./entities/goal.entity.js";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import {
   GoalNotFoundError,
   GoalTitleRequiredError,
 } from "../shared/errors/index.js";
+import { Goal } from "./entities/goal.entity.js";
+import { GoalService } from "./goal.service.js";
+import type { GoalRepositoryPort } from "./ports/goal.repository.port.js";
 import type { GoalProps, MilestoneProps } from "./types.js";
 
 // ---------------------------------------------------------------------------

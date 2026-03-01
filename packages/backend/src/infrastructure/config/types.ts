@@ -1,20 +1,20 @@
 import type { z } from "zod";
-import type { Logger } from "../logging/logger.js";
 import type {
-  TaskRepositoryPort,
+  AiAgentPort,
   ConversationRepositoryPort,
+  ConversationService,
+  GoalRepositoryPort,
+  GoalService,
   MessageRepositoryPort,
   NoteRepositoryPort,
-  GoalRepositoryPort,
-  AiAgentPort,
-  TaskService,
   NoteService,
-  GoalService,
-  ConversationService,
+  TaskRepositoryPort,
+  TaskService,
 } from "../../domain/index.js";
 import type { DbClient } from "../adapters/persistence/drizzle/client.js";
-import type { RateLimiter } from "../middleware/rate-limiter.middleware.js";
 import type { HealthCheckRegistry } from "../health/index.js";
+import type { Logger } from "../logging/logger.js";
+import type { RateLimiter } from "../middleware/rate-limiter.middleware.js";
 import type { configSchema } from "./config.js";
 
 export type Environment = "development" | "production" | "test";

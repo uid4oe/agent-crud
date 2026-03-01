@@ -1,4 +1,4 @@
-import { Dumbbell, Apple, Brain, Moon, MoreHorizontal } from "lucide-react";
+import { Apple, Brain, Dumbbell, Moon, MoreHorizontal } from "lucide-react";
 import type { GoalCategory } from "../../types";
 
 export const CATEGORY_CONFIG: Record<GoalCategory, { label: string; icon: typeof Dumbbell; color: string }> = {

@@ -1,11 +1,11 @@
-import { eq, desc, ilike, or } from "drizzle-orm";
-import { type DbClient } from "./client.js";
-import { conversations, messages } from "./schema.js";
+import { desc, eq, ilike, or } from "drizzle-orm";
 import {
   Conversation,
-  type CreateConversationProps,
   type ConversationRepositoryPort,
+  type CreateConversationProps,
 } from "../../../../domain/index.js";
+import { type DbClient } from "./client.js";
+import { conversations, messages } from "./schema.js";
 
 export class DrizzleConversationRepository implements ConversationRepositoryPort {
   constructor(private readonly db: DbClient) {}

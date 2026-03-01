@@ -26,14 +26,14 @@
  *
  * SKIP when GEMINI_API_KEY is not available.
  */
-import { describe, it, expect, beforeEach } from "vitest";
+import { beforeEach, describe, expect, it } from "vitest";
 import {
-  HAS_API_KEY,
   AGENT_TEST_TIMEOUT,
-  createAgentHarness,
-  hasRoutingInfo,
-  expectItemsOrWarn,
   type AgentHarness,
+  createAgentHarness,
+  expectItemsOrWarn,
+  HAS_API_KEY,
+  hasRoutingInfo,
 } from "./conftest.js";
 
 describe.skipIf(!HAS_API_KEY)("Agent Contextual Understanding", () => {

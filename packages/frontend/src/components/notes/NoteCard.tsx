@@ -1,9 +1,9 @@
-import { Pencil, Trash2, ExternalLink } from "lucide-react";
+import { ExternalLink, Pencil, Trash2 } from "lucide-react";
 import { Link } from "react-router-dom";
-import { Button } from "../ui/button";
 import { cn, timeAgo } from "../../lib/utils";
-import { CATEGORY_CONFIG } from "./note-card.data";
 import type { Note } from "../../types";
+import { Button } from "../ui/button";
+import { CATEGORY_CONFIG } from "./note-card.data";
 
 export interface NoteCardProps {
   note: Note;

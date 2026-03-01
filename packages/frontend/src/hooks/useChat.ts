@@ -1,9 +1,9 @@
-import { useState, useCallback, useRef, useMemo } from "react";
-import { trpc } from "../lib/trpc";
-import { useChatStream } from "./useChatStream";
+import { useCallback, useMemo, useRef, useState } from "react";
 import { useToast } from "../app/providers/ToastProvider";
 import { parseMessageContent } from "../lib/message-parser";
+import { trpc } from "../lib/trpc";
 import type { Message } from "../types";
+import { useChatStream } from "./useChatStream";
 
 export type DetectedDomain = "tasks" | "notes" | "goals";
 

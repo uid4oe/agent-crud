@@ -1,17 +1,17 @@
-import { eq, ilike, or, and, desc, asc, count, inArray, type AnyColumn } from "drizzle-orm";
+import { type AnyColumn, and, asc, count, desc, eq, ilike, inArray, or } from "drizzle-orm";
+import {
+  type CreateGoalProps,
+  Goal,
+  type GoalCategory,
+  type GoalRepositoryPort,
+  type GoalStatus,
+  type MilestoneProps,
+  type PaginatedResult,
+  type PaginationInput,
+  type UpdateGoalProps,
+} from "../../../../domain/index.js";
 import { type DbClient } from "./client.js";
 import { goals, milestones } from "./schema.js";
-import {
-  Goal,
-  type GoalStatus,
-  type GoalCategory,
-  type CreateGoalProps,
-  type UpdateGoalProps,
-  type GoalRepositoryPort,
-  type MilestoneProps,
-  type PaginationInput,
-  type PaginatedResult,
-} from "../../../../domain/index.js";
 
 export class DrizzleGoalRepository implements GoalRepositoryPort {
   constructor(private readonly db: DbClient) {}

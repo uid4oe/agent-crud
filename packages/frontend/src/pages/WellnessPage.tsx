@@ -1,13 +1,13 @@
-import { useState, useMemo } from "react";
 import { Target } from "lucide-react";
-import { GoalKanbanBoard, GoalForm } from "../components/goals";
+import { useMemo, useState } from "react";
 import { DeleteDialog, EmptyFilterState, EmptyResourceState } from "../components/feedback";
-import { ResourcePageLayout, ResourcePageHeader, SearchInput, FilterSortBar } from "../components/shared";
-import { useGoals } from "../hooks";
-import { GOAL_CATEGORY_OPTIONS } from "../config";
-import type { Goal } from "../types";
-import type { GoalFormSchema } from "../lib/validation";
+import { GoalForm, GoalKanbanBoard } from "../components/goals";
 import type { FilterConfig, SortOption } from "../components/shared";
+import { FilterSortBar, ResourcePageHeader, ResourcePageLayout, SearchInput } from "../components/shared";
+import { GOAL_CATEGORY_OPTIONS } from "../config";
+import { useGoals } from "../hooks";
+import type { GoalFormSchema } from "../lib/validation";
+import type { Goal } from "../types";
 
 const GOAL_FILTERS: FilterConfig[] = [
   {

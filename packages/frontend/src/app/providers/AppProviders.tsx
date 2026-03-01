@@ -1,9 +1,9 @@
-import type { ReactNode } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { trpc, trpcClient } from "../../lib/trpc";
-import { ToastProvider } from "./ToastProvider";
+import type { ReactNode } from "react";
 import { ErrorBoundary } from "../../components/feedback/ErrorBoundary";
 import { ToastContainer } from "../../components/feedback/ToastContainer";
+import { trpc, trpcClient } from "../../lib/trpc";
+import { ToastProvider } from "./ToastProvider";
 
 const queryClient = new QueryClient({
   defaultOptions: {

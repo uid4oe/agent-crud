@@ -1,7 +1,7 @@
+import type { Goal, GoalStatus } from "../../types";
 import { KanbanBoard as SharedKanbanBoard } from "../shared";
 import { GoalCard } from "./GoalCard";
 import { COLUMNS } from "./goal-kanban.data";
-import type { Goal, GoalStatus } from "../../types";
 
 interface GoalKanbanBoardProps {
   goals: Goal[];

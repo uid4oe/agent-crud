@@ -1,18 +1,18 @@
-import { describe, it, expect } from "vitest";
+import { describe, expect, it } from "vitest";
 import {
-  AppError,
-  TaskNotFoundError,
-  NoteNotFoundError,
-  GoalNotFoundError,
-  ValidationError,
-  AiServiceError,
   AiRateLimitedError,
-  DatabaseError,
-  DatabaseConnectionError,
+  AiServiceError,
+  AppError,
   ConflictError,
-  UnauthorizedError,
+  DatabaseConnectionError,
+  DatabaseError,
   ForbiddenError,
+  GoalNotFoundError,
   InternalError,
+  NoteNotFoundError,
+  TaskNotFoundError,
+  UnauthorizedError,
+  ValidationError,
   wrapError,
 } from "./index.js";
 

@@ -1,10 +1,10 @@
+import { ListTodo, Plus } from "lucide-react";
 import { useState } from "react";
-import { Plus, ListTodo } from "lucide-react";
-import { TaskKanban, TaskForm } from "../tasks";
-import { DeleteDialog, EmptyResourceState } from "../feedback";
 import { useTasks } from "../../hooks";
-import type { Task } from "../../types";
 import type { TaskFormSchema } from "../../lib/validation";
+import type { Task } from "../../types";
+import { DeleteDialog, EmptyResourceState } from "../feedback";
+import { TaskForm, TaskKanban } from "../tasks";
 
 export function PanelTasksView() {
   const [createOpen, setCreateOpen] = useState(false);

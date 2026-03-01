@@ -1,5 +1,5 @@
-import type { KanbanColumn } from "../shared";
 import type { NoteCategory } from "../../types";
+import type { KanbanColumn } from "../shared";
 
 export const COLUMNS: KanbanColumn<NoteCategory>[] = [
   { key: "general", label: "General", emptyText: "No general notes", color: "bg-gray-50" },

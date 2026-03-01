@@ -1,6 +1,6 @@
 import { FunctionTool } from "@google/adk";
 import { z } from "zod";
-import type { GoalRepositoryPort, GoalStatus, GoalCategory, UpdateGoalProps } from "../../../../domain/index.js";
+import type { GoalCategory, GoalRepositoryPort, GoalStatus, UpdateGoalProps } from "../../../../domain/index.js";
 import { params, safeExecute, type ToolArgs } from "./tool-helpers.js";
 
 export function createGoalTools(

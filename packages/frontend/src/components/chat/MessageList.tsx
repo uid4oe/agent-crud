@@ -1,8 +1,8 @@
 import { useEffect, useRef } from "react";
 import type { Message } from "../../types";
-import { MessageBubble } from "./MessageBubble";
 import { AgentIcon } from "./AgentIcon";
 import { LoadingDots } from "./LoadingDots";
+import { MessageBubble } from "./MessageBubble";
 
 interface MessageListProps {
   messages: Message[] | undefined;

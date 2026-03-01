@@ -1,12 +1,12 @@
-import { describe, it, expect, vi } from "vitest";
 import type { FunctionTool } from "@google/adk";
-import { createCrossDomainTools } from "./cross-domain.tools.js";
-import { Task } from "../../../../domain/task/entities/task.entity.js";
-import { Note } from "../../../../domain/note/entities/note.entity.js";
+import { describe, expect, it, vi } from "vitest";
 import { Goal } from "../../../../domain/goal/entities/goal.entity.js";
-import type { TaskRepositoryPort } from "../../../../domain/task/ports/task.repository.port.js";
-import type { NoteRepositoryPort } from "../../../../domain/note/ports/note.repository.port.js";
 import type { GoalRepositoryPort } from "../../../../domain/goal/ports/goal.repository.port.js";
+import { Note } from "../../../../domain/note/entities/note.entity.js";
+import type { NoteRepositoryPort } from "../../../../domain/note/ports/note.repository.port.js";
+import { Task } from "../../../../domain/task/entities/task.entity.js";
+import type { TaskRepositoryPort } from "../../../../domain/task/ports/task.repository.port.js";
+import { createCrossDomainTools } from "./cross-domain.tools.js";
 
 // FunctionTool.execute is private in ADK types but accessible at runtime.
 interface TestTool { name: string; execute: (args: Record<string, unknown>) => Promise<string> }

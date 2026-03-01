@@ -1,21 +1,21 @@
-import {
-	CalendarDays,
-	AlertCircle,
-	Lightbulb,
-	Search,
-	Flame,
-	NotebookPen,
-	TrendingUp,
-	Target,
-	ListChecks,
-	BookOpen,
-	Dumbbell,
-	Layers,
-	PenLine,
-	CheckCircle2,
-	BarChart3,
-} from "lucide-react";
 import type { LucideIcon } from "lucide-react";
+import {
+	AlertCircle,
+	BarChart3,
+	BookOpen,
+	CalendarDays,
+	CheckCircle2,
+	Dumbbell,
+	Flame,
+	Layers,
+	Lightbulb,
+	ListChecks,
+	NotebookPen,
+	PenLine,
+	Search,
+	Target,
+	TrendingUp,
+} from "lucide-react";
 
 export interface Suggestion {
 	icon: LucideIcon;

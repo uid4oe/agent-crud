@@ -1,10 +1,10 @@
-import { useState } from "react";
 import { Plus, Target } from "lucide-react";
-import { GoalKanbanBoard, GoalForm } from "../goals";
-import { DeleteDialog, EmptyResourceState } from "../feedback";
+import { useState } from "react";
 import { useGoals } from "../../hooks";
-import type { Goal } from "../../types";
 import type { GoalFormSchema } from "../../lib/validation";
+import type { Goal } from "../../types";
+import { DeleteDialog, EmptyResourceState } from "../feedback";
+import { GoalForm, GoalKanbanBoard } from "../goals";
 
 export function PanelGoalsView() {
   const [createOpen, setCreateOpen] = useState(false);

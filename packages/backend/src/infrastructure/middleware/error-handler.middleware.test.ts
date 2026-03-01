@@ -1,17 +1,17 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
 import { TRPCError } from "@trpc/server";
+import type { NextFunction, Request, Response } from "express";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import {
-  createErrorHandlerMiddleware,
-  transformTRPCError,
-  createTRPCErrorFormatter,
-} from "./error-handler.middleware.js";
-import {
+  AiServiceError,
   TaskNotFoundError,
   ValidationError,
-  AiServiceError,
 } from "../../domain/index.js";
 import { createLogger } from "../logging/index.js";
-import type { Request, Response, NextFunction } from "express";
+import {
+  createErrorHandlerMiddleware,
+  createTRPCErrorFormatter,
+  transformTRPCError,
+} from "./error-handler.middleware.js";
 
 // ---------------------------------------------------------------------------
 // Helpers

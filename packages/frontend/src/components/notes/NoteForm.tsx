@@ -1,14 +1,14 @@
-import { useEffect, useRef } from "react";
-import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
+import { useEffect, useRef } from "react";
+import { useForm } from "react-hook-form";
+import { NOTE_CATEGORIES, NOTE_CATEGORY_OPTIONS } from "../../config";
+import { type NoteFormSchema, noteFormSchema } from "../../lib/validation";
 import { Button } from "../ui/button";
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "../ui/dialog";
 import { Input } from "../ui/input";
-import { Textarea } from "../ui/textarea";
 import { Select } from "../ui/select";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "../ui/dialog";
-import { noteFormSchema, type NoteFormSchema } from "../../lib/validation";
-import { NOTE_CATEGORY_OPTIONS, NOTE_CATEGORIES } from "../../config";
+import { Textarea } from "../ui/textarea";
 
 interface NoteFormProps {
   open: boolean;

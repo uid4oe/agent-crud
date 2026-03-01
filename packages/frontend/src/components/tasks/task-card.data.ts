@@ -1,5 +1,5 @@
-import { CheckCircle2, Clock, Loader2, AlertTriangle, ArrowDown } from "lucide-react";
-import type { TaskStatus, TaskPriority } from "../../types";
+import { AlertTriangle, ArrowDown, CheckCircle2, Clock, Loader2 } from "lucide-react";
+import type { TaskPriority, TaskStatus } from "../../types";
 
 export const STATUS_CONFIG: Record<TaskStatus, { label: string; icon: typeof Clock }> = {
   pending: { label: "Pending", icon: Clock },

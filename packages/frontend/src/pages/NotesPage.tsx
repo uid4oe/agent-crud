@@ -1,13 +1,13 @@
-import { useState, useMemo } from "react";
 import { FileText } from "lucide-react";
-import { NoteKanban, NoteForm } from "../components/notes";
+import { useMemo, useState } from "react";
 import { DeleteDialog, EmptyFilterState, EmptyResourceState } from "../components/feedback";
-import { ResourcePageLayout, ResourcePageHeader, SearchInput, FilterSortBar } from "../components/shared";
-import { useNotes } from "../hooks";
-import { NOTE_CATEGORY_OPTIONS } from "../config";
-import type { Note } from "../types";
-import type { NoteFormSchema } from "../lib/validation";
+import { NoteForm, NoteKanban } from "../components/notes";
 import type { FilterConfig, SortOption } from "../components/shared";
+import { FilterSortBar, ResourcePageHeader, ResourcePageLayout, SearchInput } from "../components/shared";
+import { NOTE_CATEGORY_OPTIONS } from "../config";
+import { useNotes } from "../hooks";
+import type { NoteFormSchema } from "../lib/validation";
+import type { Note } from "../types";
 
 const NOTE_FILTERS: FilterConfig[] = [
   {

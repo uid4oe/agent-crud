@@ -1,5 +1,5 @@
-import type { KanbanColumn } from "../shared";
 import type { TaskStatus } from "../../types";
+import type { KanbanColumn } from "../shared";
 
 export const COLUMNS: KanbanColumn<TaskStatus>[] = [
   { key: "pending", label: "Pending", emptyText: "No pending tasks", color: "bg-amber-50/50" },

@@ -1,16 +1,16 @@
+import { GoalNotFoundError, GoalTitleRequiredError } from "../shared/index.js";
+import type { PaginatedResult, PaginationInput } from "../shared/types.js";
 import type { Goal } from "./entities/goal.entity.js";
 import type { GoalRepositoryPort } from "./ports/goal.repository.port.js";
-import { GoalNotFoundError, GoalTitleRequiredError } from "../shared/index.js";
-import type { PaginationInput, PaginatedResult } from "../shared/types.js";
 import type {
-  GoalStatus,
-  GoalCategory,
-  ListGoalsInput,
-  GetGoalInput,
   CreateGoalInput,
-  UpdateGoalInput,
   DeleteGoalInput,
+  GetGoalInput,
+  GoalCategory,
+  GoalStatus,
+  ListGoalsInput,
   ToggleMilestoneInput,
+  UpdateGoalInput,
 } from "./types.js";
 
 export class GoalService {

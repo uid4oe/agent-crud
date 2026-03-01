@@ -1,15 +1,15 @@
-import { eq, ilike, or, sql, desc, asc, and, count, inArray, type AnyColumn } from "drizzle-orm";
+import { type AnyColumn, and, asc, count, desc, eq, ilike, inArray, or, sql } from "drizzle-orm";
+import {
+  type CreateTaskProps,
+  type PaginatedResult,
+  type PaginationInput,
+  Task,
+  type TaskRepositoryPort,
+  type TaskStatus,
+  type UpdateTaskProps,
+} from "../../../../domain/index.js";
 import { type DbClient } from "./client.js";
 import { tasks } from "./schema.js";
-import {
-  Task,
-  type TaskStatus,
-  type CreateTaskProps,
-  type UpdateTaskProps,
-  type TaskRepositoryPort,
-  type PaginationInput,
-  type PaginatedResult,
-} from "../../../../domain/index.js";
 
 export class DrizzleTaskRepository implements TaskRepositoryPort {
   constructor(private readonly db: DbClient) {}

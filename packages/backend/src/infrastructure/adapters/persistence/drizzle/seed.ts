@@ -1,8 +1,8 @@
-import { drizzle } from "drizzle-orm/postgres-js";
-import postgres from "postgres";
 import dotenv from "dotenv";
+import { drizzle } from "drizzle-orm/postgres-js";
 import path from "path";
-import { tasks, notes, goals, milestones } from "./schema.js";
+import postgres from "postgres";
+import { goals, milestones, notes, tasks } from "./schema.js";
 
 dotenv.config({ path: path.resolve(process.cwd(), "../../.env") });
 

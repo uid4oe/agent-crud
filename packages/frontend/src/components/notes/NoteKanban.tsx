@@ -1,7 +1,7 @@
+import type { Note, NoteCategory } from "../../types";
 import { KanbanBoard } from "../shared";
 import { NoteCard } from "./NoteCard";
 import { COLUMNS } from "./note-kanban.data";
-import type { Note, NoteCategory } from "../../types";
 
 interface NoteKanbanProps {
   notes: Note[];

@@ -10,14 +10,13 @@
  * - Error handling
  */
 
+import { createExpressMiddleware } from "@trpc/server/adapters/express";
+import cors from "cors";
 import type { Express } from "express";
 import express from "express";
-import cors from "cors";
-import { createExpressMiddleware } from "@trpc/server/adapters/express";
-import { router, createTaskRouter, createNoteRouter, createGoalRouter, createAgentRouter } from "./index.js";
 import type { Container } from "../config/types.js";
-import { createRequestLoggerMiddleware, RateLimiter, RateLimitPresets } from "../middleware/index.js";
-import { createErrorHandlerMiddleware } from "../middleware/index.js";
+import { createErrorHandlerMiddleware, createRequestLoggerMiddleware, RateLimiter, RateLimitPresets } from "../middleware/index.js";
+import { createAgentRouter, createGoalRouter, createNoteRouter, createTaskRouter, router } from "./index.js";
 
 export function createApp(container: Container): {
   app: Express;

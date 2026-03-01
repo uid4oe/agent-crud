@@ -1,14 +1,14 @@
-import { useEffect, useRef } from "react";
-import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
+import { useEffect, useRef } from "react";
+import { useForm } from "react-hook-form";
+import { TASK_PRIORITIES, TASK_PRIORITY_OPTIONS, TASK_STATUS_OPTIONS, TASK_STATUSES } from "../../config";
+import { type TaskFormSchema, taskFormSchema } from "../../lib/validation";
 import { Button } from "../ui/button";
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "../ui/dialog";
 import { Input } from "../ui/input";
-import { Textarea } from "../ui/textarea";
 import { Select } from "../ui/select";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "../ui/dialog";
-import { taskFormSchema, type TaskFormSchema } from "../../lib/validation";
-import { TASK_STATUS_OPTIONS, TASK_STATUSES, TASK_PRIORITY_OPTIONS, TASK_PRIORITIES } from "../../config";
+import { Textarea } from "../ui/textarea";
 
 interface TaskFormProps {
   open: boolean;

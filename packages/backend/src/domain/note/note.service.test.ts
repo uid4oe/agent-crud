@@ -1,8 +1,8 @@
-import { describe, it, expect, beforeEach, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
+import { NoteNotFoundError, NoteTitleRequiredError } from "../shared/errors/index.js";
+import { Note } from "./entities/note.entity.js";
 import { NoteService } from "./note.service.js";
 import type { NoteRepositoryPort } from "./ports/note.repository.port.js";
-import { Note } from "./entities/note.entity.js";
-import { NoteNotFoundError, NoteTitleRequiredError } from "../shared/errors/index.js";
 import type { NoteProps } from "./types.js";
 
 // ---------------------------------------------------------------------------

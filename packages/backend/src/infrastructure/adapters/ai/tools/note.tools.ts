@@ -1,6 +1,6 @@
 import { FunctionTool } from "@google/adk";
 import { z } from "zod";
-import type { NoteRepositoryPort, NoteCategory } from "../../../../domain/index.js";
+import type { NoteCategory, NoteRepositoryPort } from "../../../../domain/index.js";
 import { params, safeExecute, type ToolArgs } from "./tool-helpers.js";
 
 export function createNoteTools(

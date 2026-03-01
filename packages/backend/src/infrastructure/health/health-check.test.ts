@@ -1,10 +1,10 @@
-import { describe, it, expect } from "vitest";
-import {
-  HealthCheckRegistry,
-  createMemoryHealthCheck,
-  createExternalServiceHealthCheck,
-} from "./health-check.js";
+import { describe, expect, it } from "vitest";
 import { createLogger } from "../logging/index.js";
+import {
+  createExternalServiceHealthCheck,
+  createMemoryHealthCheck,
+  HealthCheckRegistry,
+} from "./health-check.js";
 
 // ---------------------------------------------------------------------------
 // Helpers

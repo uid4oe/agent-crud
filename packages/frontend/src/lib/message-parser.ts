@@ -1,4 +1,4 @@
-import type { Task, Note, Goal } from "../types";
+import type { Goal, Note, Task } from "../types";
 
 export type MessageSegment =
   | { type: "text"; content: string }

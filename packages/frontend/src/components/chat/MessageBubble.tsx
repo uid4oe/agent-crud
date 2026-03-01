@@ -1,9 +1,9 @@
-import { AgentIcon } from "./AgentIcon";
+import { extractRoutingInfo, stripCardTags } from "../../lib/message-parser";
 import { cn } from "../../lib/utils";
-import { stripCardTags, extractRoutingInfo } from "../../lib/message-parser";
 import type { Message } from "../../types";
-import { MarkdownContent } from "./MarkdownContent";
+import { AgentIcon } from "./AgentIcon";
 import { LoadingDots } from "./LoadingDots";
+import { MarkdownContent } from "./MarkdownContent";
 
 interface MessageBubbleProps {
   msg: Message;

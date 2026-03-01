@@ -1,18 +1,18 @@
 import {
-  GoalStatusValues,
-  GoalCategoryValues,
-} from "../types.js";
-import {
-  GoalTitleRequiredError,
-  GoalInvalidStatusError,
   GoalInvalidCategoryError,
+  GoalInvalidStatusError,
+  GoalTitleRequiredError,
 } from "../../shared/errors/index.js";
 import type {
-  GoalStatus,
+  CreateMilestoneProps,
   GoalCategory,
   GoalProps,
+  GoalStatus,
   MilestoneProps,
-  CreateMilestoneProps,
+} from "../types.js";
+import {
+  GoalCategoryValues,
+  GoalStatusValues,
 } from "../types.js";
 
 export class Goal {

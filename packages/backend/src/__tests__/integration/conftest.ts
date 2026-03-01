@@ -5,27 +5,28 @@
  * Tests that import from this file will be SKIPPED when GEMINI_API_KEY is
  * not set in the environment (CI-friendly).
  */
+
+import crypto from "crypto";
 import dotenv from "dotenv";
 import path from "path";
-import crypto from "crypto";
+import { Goal } from "../../domain/goal/entities/goal.entity.js";
+import type { GoalRepositoryPort } from "../../domain/goal/ports/goal.repository.port.js";
+import type {
+  CreateGoalProps,
+  GoalCategory,
+  GoalStatus,
+  MilestoneProps,
+  UpdateGoalProps,
+} from "../../domain/goal/types.js";
+import { Note } from "../../domain/note/entities/note.entity.js";
+import type { NoteRepositoryPort } from "../../domain/note/ports/note.repository.port.js";
+import type { CreateNoteProps, NoteCategory, UpdateNoteProps } from "../../domain/note/types.js";
+import type { PaginatedResult, PaginationInput } from "../../domain/shared/types.js";
+import { Task } from "../../domain/task/entities/task.entity.js";
+import type { TaskRepositoryPort } from "../../domain/task/ports/task.repository.port.js";
+import type { CreateTaskProps, TaskPriority, TaskStatus, UpdateTaskProps } from "../../domain/task/types.js";
 import { AdkAgentAdapter } from "../../infrastructure/adapters/ai/adk-agent.adapter.js";
 import { createLogger } from "../../infrastructure/logging/index.js";
-import { Task } from "../../domain/task/entities/task.entity.js";
-import { Note } from "../../domain/note/entities/note.entity.js";
-import { Goal } from "../../domain/goal/entities/goal.entity.js";
-import type { TaskRepositoryPort } from "../../domain/task/ports/task.repository.port.js";
-import type { NoteRepositoryPort } from "../../domain/note/ports/note.repository.port.js";
-import type { GoalRepositoryPort } from "../../domain/goal/ports/goal.repository.port.js";
-import type { TaskStatus, CreateTaskProps, UpdateTaskProps, TaskPriority } from "../../domain/task/types.js";
-import type { NoteCategory, CreateNoteProps, UpdateNoteProps } from "../../domain/note/types.js";
-import type {
-  GoalStatus,
-  GoalCategory,
-  CreateGoalProps,
-  UpdateGoalProps,
-  MilestoneProps,
-} from "../../domain/goal/types.js";
-import type { PaginationInput, PaginatedResult } from "../../domain/shared/types.js";
 
 // ---------------------------------------------------------------------------
 // Env

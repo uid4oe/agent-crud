@@ -1,5 +1,5 @@
-import { Toast } from "./Toast";
 import { useToast } from "../../app/providers/ToastProvider";
+import { Toast } from "./Toast";
 
 export function ToastContainer() {
   const { toasts, removeToast } = useToast();

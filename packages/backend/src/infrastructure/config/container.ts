@@ -1,28 +1,26 @@
 import {
-  TaskService,
-  NoteService,
-  GoalService,
   ConversationService,
+  GoalService,
+  NoteService,
+  TaskService,
 } from "../../domain/index.js";
-
+import { AdkAgentAdapter } from "../adapters/ai/adk-agent.adapter.js";
 import {
-  DrizzleTaskRepository,
+  createDbClient,
   DrizzleConversationRepository,
+  DrizzleGoalRepository,
   DrizzleMessageRepository,
   DrizzleNoteRepository,
-  DrizzleGoalRepository,
-  createDbClient,
+  DrizzleTaskRepository,
 } from "../adapters/persistence/drizzle/index.js";
-import { AdkAgentAdapter } from "../adapters/ai/adk-agent.adapter.js";
-
-import { createLogger } from "../logging/index.js";
-import { RateLimiter, RateLimitPresets } from "../middleware/index.js";
 import {
-  HealthCheckRegistry,
+  createAiHealthCheck,
   createDatabaseHealthCheck,
   createMemoryHealthCheck,
-  createAiHealthCheck,
+  HealthCheckRegistry,
 } from "../health/index.js";
+import { createLogger } from "../logging/index.js";
+import { RateLimiter, RateLimitPresets } from "../middleware/index.js";
 import type { Config, Container } from "./types.js";
 
 export function createContainer(config: Config): Container {

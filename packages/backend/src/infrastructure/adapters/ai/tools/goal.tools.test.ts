@@ -1,9 +1,9 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
 import type { FunctionTool } from "@google/adk";
-import { createGoalTools } from "./goal.tools.js";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { Goal } from "../../../../domain/goal/entities/goal.entity.js";
 import type { GoalRepositoryPort } from "../../../../domain/goal/ports/goal.repository.port.js";
 import type { GoalProps, MilestoneProps } from "../../../../domain/goal/types.js";
+import { createGoalTools } from "./goal.tools.js";
 
 // ---------------------------------------------------------------------------
 // Helpers

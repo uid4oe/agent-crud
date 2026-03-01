@@ -1,12 +1,12 @@
-import { describe, it, expect } from "vitest";
+import { createEvent, type Event } from "@google/adk";
+import { describe, expect, it } from "vitest";
 import {
   collectCards,
-  formatCards,
   extractRoutingAgent,
+  formatCards,
   formatRoutingInfo,
 } from "./entity-card.collector.js";
 import type { EntityCard } from "./types.js";
-import { createEvent, type Event } from "@google/adk";
 
 // ---------------------------------------------------------------------------
 // Helpers

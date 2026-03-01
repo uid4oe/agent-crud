@@ -1,6 +1,6 @@
+import { NoteInvalidCategoryError, NoteTitleRequiredError } from "../../shared/errors/index.js";
+import type { NoteCategory, NoteProps } from "../types.js";
 import { NoteCategoryValues } from "../types.js";
-import { NoteTitleRequiredError, NoteInvalidCategoryError } from "../../shared/errors/index.js";
-import type { NoteProps, NoteCategory } from "../types.js";
 
 export class Note {
   private constructor(private readonly props: NoteProps) {}

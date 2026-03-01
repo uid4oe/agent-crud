@@ -1,6 +1,6 @@
 import { z } from "zod";
-import type { NoteCategory } from "../../types";
 import { NOTE_CATEGORIES } from "../../config";
+import type { NoteCategory } from "../../types";
 
 const NOTE_CATEGORY_VALUES = Object.values(NOTE_CATEGORIES) as [NoteCategory, ...NoteCategory[]];
 

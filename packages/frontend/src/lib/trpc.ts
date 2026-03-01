@@ -1,5 +1,5 @@
+import { createWSClient, httpBatchLink, splitLink, wsLink } from "@trpc/client";
 import { createTRPCReact } from "@trpc/react-query";
-import { httpBatchLink, splitLink, createWSClient, wsLink } from "@trpc/client";
 import type { AppRouter } from "backend";
 
 export const trpc = createTRPCReact<AppRouter>();

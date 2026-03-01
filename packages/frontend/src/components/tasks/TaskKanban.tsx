@@ -1,7 +1,7 @@
+import type { Task, TaskStatus } from "../../types";
 import { KanbanBoard } from "../shared";
 import { TaskCard } from "./TaskCard";
 import { COLUMNS } from "./task-kanban.data";
-import type { Task, TaskStatus } from "../../types";
 
 interface TaskKanbanProps {
   tasks: Task[];

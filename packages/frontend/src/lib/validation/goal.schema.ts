@@ -1,6 +1,6 @@
 import { z } from "zod";
-import type { GoalStatus, GoalCategory } from "../../types";
-import { GOAL_STATUSES, GOAL_CATEGORIES } from "../../config";
+import { GOAL_CATEGORIES, GOAL_STATUSES } from "../../config";
+import type { GoalCategory, GoalStatus } from "../../types";
 
 const GOAL_STATUS_VALUES = Object.values(GOAL_STATUSES) as [GoalStatus, ...GoalStatus[]];
 const GOAL_CATEGORY_VALUES = Object.values(GOAL_CATEGORIES) as [GoalCategory, ...GoalCategory[]];

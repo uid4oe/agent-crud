@@ -1,9 +1,9 @@
 import { LlmAgent } from "@google/adk";
-import type { GoalRepositoryPort, TaskRepositoryPort, NoteRepositoryPort } from "../../../../domain/index.js";
-import { createGoalTools } from "../tools/goal.tools.js";
-import { createCrossDomainTools } from "../tools/cross-domain.tools.js";
-import { injectToolsTable } from "../tools/tool-helpers.js";
+import type { GoalRepositoryPort, NoteRepositoryPort, TaskRepositoryPort } from "../../../../domain/index.js";
 import { GOAL_AGENT_SYSTEM_PROMPT } from "../prompts/goal.prompt.js";
+import { createCrossDomainTools } from "../tools/cross-domain.tools.js";
+import { createGoalTools } from "../tools/goal.tools.js";
+import { injectToolsTable } from "../tools/tool-helpers.js";
 
 export function createGoalAgent(
   goalRepository: GoalRepositoryPort,

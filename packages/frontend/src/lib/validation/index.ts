@@ -1,3 +1,3 @@
-export { taskFormSchema, type TaskFormSchema } from "./task.schema";
-export { noteFormSchema, type NoteFormSchema } from "./note.schema";
-export { goalFormSchema, milestoneFormSchema, type GoalFormSchema } from "./goal.schema";
+export { type GoalFormSchema, goalFormSchema, milestoneFormSchema } from "./goal.schema";
+export { type NoteFormSchema, noteFormSchema } from "./note.schema";
+export { type TaskFormSchema, taskFormSchema } from "./task.schema";

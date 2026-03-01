@@ -1,6 +1,6 @@
-import { describe, it, expect, vi, afterEach } from "vitest";
-import { RateLimiter, RateLimitPresets } from "./rate-limiter.middleware.js";
 import type { Request, Response } from "express";
+import { afterEach, describe, expect, it, vi } from "vitest";
+import { RateLimiter, RateLimitPresets } from "./rate-limiter.middleware.js";
 
 // ---------------------------------------------------------------------------
 // Helpers

@@ -1,7 +1,7 @@
 import { z } from "zod";
-import { router, publicProcedure } from "./trpc.js";
-import { NoteCategoryValues } from "../../domain/index.js";
 import type { NoteCategory , NoteService} from "../../domain/index.js";
+import { NoteCategoryValues } from "../../domain/index.js";
+import { publicProcedure, router } from "./trpc.js";
 
 const noteCategorySchema = z.enum(NoteCategoryValues);
 

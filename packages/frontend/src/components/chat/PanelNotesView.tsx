@@ -1,10 +1,10 @@
+import { FileText, Plus } from "lucide-react";
 import { useState } from "react";
-import { Plus, FileText } from "lucide-react";
-import { NoteKanban, NoteForm } from "../notes";
-import { DeleteDialog, EmptyResourceState } from "../feedback";
 import { useNotes } from "../../hooks";
-import type { Note } from "../../types";
 import type { NoteFormSchema } from "../../lib/validation";
+import type { Note } from "../../types";
+import { DeleteDialog, EmptyResourceState } from "../feedback";
+import { NoteForm, NoteKanban } from "../notes";
 
 export function PanelNotesView() {
   const [createOpen, setCreateOpen] = useState(false);

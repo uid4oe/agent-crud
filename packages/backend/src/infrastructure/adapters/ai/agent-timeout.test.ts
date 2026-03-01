@@ -1,5 +1,5 @@
-import { describe, it, expect } from "vitest";
-import { withTimeout, AgentTimeoutError } from "./agent-timeout.js";
+import { describe, expect, it } from "vitest";
+import { AgentTimeoutError, withTimeout } from "./agent-timeout.js";
 
 // ---------------------------------------------------------------------------
 // Helpers

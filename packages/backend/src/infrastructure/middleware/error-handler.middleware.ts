@@ -8,8 +8,8 @@
  * - Returns consistent error format
  */
 
-import type { Request, Response, NextFunction } from "express";
 import { TRPCError } from "@trpc/server";
+import type { NextFunction, Request, Response } from "express";
 import { AppError, wrapError } from "../../domain/index.js";
 import type { Logger } from "../logging/index.js";
 import { getRequestId } from "./request-context.js";

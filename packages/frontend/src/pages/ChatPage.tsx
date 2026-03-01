@@ -1,15 +1,15 @@
 import { useCallback, useEffect, useRef } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import { MessageList, ChatInput, WelcomeScreen, CardActionsProvider } from "../components/chat";
-import { EntityPanelProvider, useEntityPanel } from "../components/chat/EntityPanelContext";
-import { EntityPanel } from "../components/chat/EntityPanel";
-import { EntityPanelDrawer } from "../components/chat/EntityPanelDrawer";
+import { useNavigate, useParams } from "react-router-dom";
+import { CardActionsProvider, ChatInput, MessageList, WelcomeScreen } from "../components/chat";
 import { DemoController } from "../components/chat/DemoController";
-import { useChat, detectDomainFromContent } from "../hooks";
+import { EntityPanel } from "../components/chat/EntityPanel";
+import { EntityPanelProvider, useEntityPanel } from "../components/chat/EntityPanelContext";
+import { EntityPanelDrawer } from "../components/chat/EntityPanelDrawer";
+import { ROUTES } from "../config";
+import { detectDomainFromContent, useChat } from "../hooks";
 import { useDemoMode } from "../hooks/useDemoMode";
 import { useIsMobile } from "../hooks/useIsMobile";
 import { cn } from "../lib/utils";
-import { ROUTES } from "../config";
 
 function ChatPageInner() {
   const { conversationId } = useParams<{ conversationId?: string }>();

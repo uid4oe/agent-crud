@@ -1,14 +1,14 @@
-import { useEffect, useRef } from "react";
-import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
+import { useEffect, useRef } from "react";
+import { useFieldArray, useForm } from "react-hook-form";
+import { GOAL_CATEGORIES, GOAL_CATEGORY_OPTIONS, GOAL_STATUS_OPTIONS, GOAL_STATUSES } from "../../config";
+import { type GoalFormSchema, goalFormSchema } from "../../lib/validation";
 import { Button } from "../ui/button";
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "../ui/dialog";
 import { Input } from "../ui/input";
-import { Textarea } from "../ui/textarea";
 import { Select } from "../ui/select";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "../ui/dialog";
-import { goalFormSchema, type GoalFormSchema } from "../../lib/validation";
-import { GOAL_CATEGORY_OPTIONS, GOAL_STATUS_OPTIONS, GOAL_CATEGORIES, GOAL_STATUSES } from "../../config";
+import { Textarea } from "../ui/textarea";
 import { MilestoneFormList } from "./MilestoneFormList";
 
 interface GoalFormProps {

@@ -1,11 +1,11 @@
+import type { PaginatedResult, PaginationInput } from "../../shared/types.js";
 import type { Goal } from "../entities/goal.entity.js";
 import type {
-  GoalStatus,
-  GoalCategory,
   CreateGoalProps,
+  GoalCategory,
+  GoalStatus,
   UpdateGoalProps,
 } from "../types.js";
-import type { PaginationInput, PaginatedResult } from "../../shared/types.js";
 
 export interface GoalRepositoryPort {
   findAll(pagination?: PaginationInput): Promise<PaginatedResult<Goal>>;

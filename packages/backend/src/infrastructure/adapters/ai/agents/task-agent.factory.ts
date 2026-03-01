@@ -1,9 +1,9 @@
 import { LlmAgent } from "@google/adk";
-import type { TaskRepositoryPort, NoteRepositoryPort, GoalRepositoryPort } from "../../../../domain/index.js";
-import { createTaskTools } from "../tools/task.tools.js";
-import { createCrossDomainTools } from "../tools/cross-domain.tools.js";
-import { injectToolsTable } from "../tools/tool-helpers.js";
+import type { GoalRepositoryPort, NoteRepositoryPort, TaskRepositoryPort } from "../../../../domain/index.js";
 import { TASK_AGENT_SYSTEM_PROMPT } from "../prompts/task.prompt.js";
+import { createCrossDomainTools } from "../tools/cross-domain.tools.js";
+import { createTaskTools } from "../tools/task.tools.js";
+import { injectToolsTable } from "../tools/tool-helpers.js";
 
 export function createTaskAgent(
   taskRepository: TaskRepositoryPort,

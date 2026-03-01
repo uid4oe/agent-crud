@@ -1,17 +1,17 @@
-import { useState, useMemo, type ReactNode } from "react";
 import {
   DndContext,
+  type DragEndEvent,
   DragOverlay,
+  type DragStartEvent,
+  KeyboardSensor,
+  PointerSensor,
   useDraggable,
   useDroppable,
-  PointerSensor,
-  KeyboardSensor,
   useSensor,
   useSensors,
-  type DragStartEvent,
-  type DragEndEvent,
 } from "@dnd-kit/core";
 import { Inbox } from "lucide-react";
+import { type ReactNode, useMemo, useState } from "react";
 import { cn } from "../../lib/utils";
 
 export interface KanbanColumn<T extends string = string> {

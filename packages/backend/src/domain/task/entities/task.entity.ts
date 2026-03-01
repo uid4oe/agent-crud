@@ -1,6 +1,6 @@
+import { TaskInvalidStatusError, TaskTitleRequiredError } from "../../shared/errors/index.js";
+import type { TaskPriority, TaskProps , TaskStatus } from "../types.js";
 import { TaskStatusValues } from "../types.js";
-import { TaskTitleRequiredError, TaskInvalidStatusError } from "../../shared/errors/index.js";
-import type { TaskProps , TaskStatus, TaskPriority} from "../types.js";
 
 export class Task {
   private constructor(private readonly props: TaskProps) {}

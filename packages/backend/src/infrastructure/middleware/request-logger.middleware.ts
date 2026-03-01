@@ -8,12 +8,12 @@
  * - Request duration
  */
 
-import type { Request, Response, NextFunction } from "express";
+import type { NextFunction, Request, Response } from "express";
 import type { Logger } from "../logging/index.js";
 import {
   createRequestContext,
-  runWithContext,
   getElapsedTime,
+  runWithContext,
 } from "./request-context.js";
 
 export function createRequestLoggerMiddleware(logger: Logger) {

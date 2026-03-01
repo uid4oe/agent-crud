@@ -1,22 +1,22 @@
-import type { Conversation } from "./entities/conversation.entity.js";
-import type { Message } from "./entities/message.entity.js";
-import type { MessageRepositoryPort } from "./ports/message.repository.port.js";
-import type { ConversationRepositoryPort } from "./ports/conversation.repository.port.js";
 import type {
   AiAgentPort} from "../shared/index.js";
 import {
   ConversationNotFoundError,
-  MessageNotFoundError,
   MessageNotEditableError,
+  MessageNotFoundError,
 } from "../shared/index.js";
+import type { Conversation } from "./entities/conversation.entity.js";
+import type { Message } from "./entities/message.entity.js";
+import type { ConversationRepositoryPort } from "./ports/conversation.repository.port.js";
+import type { MessageRepositoryPort } from "./ports/message.repository.port.js";
 import type {
-  CreateConversationInput,
-  GetConversationInput,
-  DeleteConversationInput,
-  GetMessagesInput,
   ChatInput,
   ChatOutput,
   ChatStreamChunk,
+  CreateConversationInput,
+  DeleteConversationInput,
+  GetConversationInput,
+  GetMessagesInput,
 } from "./types.js";
 
 const HISTORY_LIMIT = 20;

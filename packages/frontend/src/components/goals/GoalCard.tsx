@@ -1,11 +1,11 @@
+import { Calendar, ExternalLink, Pencil, Trash2 } from "lucide-react";
 import { useCallback } from "react";
-import { Pencil, Trash2, Calendar, ExternalLink } from "lucide-react";
 import { Link } from "react-router-dom";
-import { Button } from "../ui/button";
 import { cn, timeAgo } from "../../lib/utils";
-import { MilestoneList } from "./MilestoneList";
-import { CATEGORY_CONFIG } from "./goal-card.data";
 import type { Goal } from "../../types";
+import { Button } from "../ui/button";
+import { CATEGORY_CONFIG } from "./goal-card.data";
+import { MilestoneList } from "./MilestoneList";
 
 export interface GoalCardProps {
   goal: Goal;

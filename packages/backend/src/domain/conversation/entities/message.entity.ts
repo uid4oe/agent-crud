@@ -1,6 +1,6 @@
-import { MessageRoleValues } from "../types.js";
 import { MessageContentRequiredError, ValidationError } from "../../shared/errors/index.js";
-import type { MessageRole, MessageProps } from "../types.js";
+import type { MessageProps, MessageRole } from "../types.js";
+import { MessageRoleValues } from "../types.js";
 
 export class Message {
   private constructor(private readonly props: MessageProps) {}

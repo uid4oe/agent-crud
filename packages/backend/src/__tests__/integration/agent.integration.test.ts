@@ -6,14 +6,14 @@
  *
  * SKIP when GEMINI_API_KEY is not available.
  */
-import { describe, it, expect, beforeEach } from "vitest";
+import { beforeEach, describe, expect, it } from "vitest";
 import {
-  HAS_API_KEY,
   AGENT_TEST_TIMEOUT,
+  type AgentHarness,
   createAgentHarness,
   extractCards,
+  HAS_API_KEY,
   hasRoutingInfo,
-  type AgentHarness,
 } from "./conftest.js";
 
 // ---------------------------------------------------------------------------

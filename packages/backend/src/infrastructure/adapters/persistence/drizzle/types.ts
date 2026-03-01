@@ -1,4 +1,4 @@
-import type { tasks, conversations, messages, notes, goals, milestones } from "./schema.js";
+import type { conversations, goals, messages, milestones, notes, tasks } from "./schema.js";
 
 export type TaskRecord = typeof tasks.$inferSelect;
 export type NewTaskRecord = typeof tasks.$inferInsert;

@@ -1,8 +1,8 @@
-import { describe, it, expect, beforeEach, vi } from "vitest";
-import { TaskService } from "./task.service.js";
-import type { TaskRepositoryPort } from "./ports/task.repository.port.js";
-import { Task } from "./entities/task.entity.js";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { TaskNotFoundError, TaskTitleRequiredError } from "../shared/errors/index.js";
+import { Task } from "./entities/task.entity.js";
+import type { TaskRepositoryPort } from "./ports/task.repository.port.js";
+import { TaskService } from "./task.service.js";
 import type { TaskProps } from "./types.js";
 
 // ---------------------------------------------------------------------------

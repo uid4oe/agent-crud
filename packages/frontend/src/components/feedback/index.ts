@@ -1,4 +1,4 @@
-export { PageError } from "./PageError";
+export { DeleteDialog } from "./DeleteDialog";
 export { EmptyFilterState } from "./EmptyFilterState";
 export { EmptyResourceState } from "./EmptyResourceState";
-export { DeleteDialog } from "./DeleteDialog";
+export { PageError } from "./PageError";

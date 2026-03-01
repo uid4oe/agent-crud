@@ -1,4 +1,4 @@
-import type { TaskStatus, TaskPriority, NoteCategory, GoalStatus, GoalCategory } from "../types";
+import type { GoalCategory, GoalStatus, NoteCategory, TaskPriority, TaskStatus } from "../types";
 
 export const APP_NAME = "TaskAI";
 

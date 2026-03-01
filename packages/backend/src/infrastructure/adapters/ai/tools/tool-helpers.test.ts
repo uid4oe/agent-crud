@@ -1,5 +1,5 @@
-import { describe, it, expect } from "vitest";
-import { safeExecute, buildToolsTable, injectToolsTable, type ToolArgs, type ToolMeta } from "./tool-helpers.js";
+import { describe, expect, it } from "vitest";
+import { buildToolsTable, injectToolsTable, safeExecute, type ToolArgs, type ToolMeta } from "./tool-helpers.js";
 
 describe("safeExecute", () => {
   it("returns the result when function succeeds", async () => {

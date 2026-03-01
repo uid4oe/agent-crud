@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { TASK_STATUSES, TASK_PRIORITIES } from "../../config";
+import { TASK_PRIORITIES, TASK_STATUSES } from "../../config";
 
 export const taskFormSchema = z.object({
   title: z

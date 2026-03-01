@@ -9,12 +9,12 @@
  * - Graceful shutdown handling
  */
 
-import { WebSocketServer } from "ws";
 import { applyWSSHandler } from "@trpc/server/adapters/ws";
+import { WebSocketServer } from "ws";
+import { shutdownLangfuse } from "./infrastructure/adapters/observability/index.js";
 import { getConfig } from "./infrastructure/config/config.js";
 import { createContainer } from "./infrastructure/config/container.js";
 import { createApp } from "./infrastructure/endpoints/app.js";
-import { shutdownLangfuse } from "./infrastructure/adapters/observability/index.js";
 
 export type { AppRouter } from "./infrastructure/endpoints/app.js";
 

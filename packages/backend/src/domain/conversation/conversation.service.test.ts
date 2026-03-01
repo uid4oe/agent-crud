@@ -1,11 +1,11 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
+import type { AiAgentPort } from "../shared/index.js";
+import { ConversationNotFoundError, MessageNotEditableError, MessageNotFoundError } from "../shared/index.js";
 import { ConversationService } from "./conversation.service.js";
 import { Conversation } from "./entities/conversation.entity.js";
 import { Message } from "./entities/message.entity.js";
 import type { ConversationRepositoryPort } from "./ports/conversation.repository.port.js";
 import type { MessageRepositoryPort } from "./ports/message.repository.port.js";
-import type { AiAgentPort } from "../shared/index.js";
-import { ConversationNotFoundError, MessageNotFoundError, MessageNotEditableError } from "../shared/index.js";
 
 // ---------------------------------------------------------------------------
 // Helpers

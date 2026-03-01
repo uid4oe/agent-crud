@@ -1,6 +1,6 @@
+import type { PaginatedResult, PaginationInput } from "../../shared/types.js";
 import type { Note } from "../entities/note.entity.js";
-import type { NoteCategory, CreateNoteProps, UpdateNoteProps } from "../types.js";
-import type { PaginationInput, PaginatedResult } from "../../shared/types.js";
+import type { CreateNoteProps, NoteCategory, UpdateNoteProps } from "../types.js";
 
 export interface NoteRepositoryPort {
   findAll(pagination?: PaginationInput): Promise<PaginatedResult<Note>>;

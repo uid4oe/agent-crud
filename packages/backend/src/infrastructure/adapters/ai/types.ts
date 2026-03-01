@@ -1,4 +1,4 @@
-import type { TaskRepositoryPort, NoteRepositoryPort, GoalRepositoryPort } from "../../../domain/index.js";
+import type { GoalRepositoryPort, NoteRepositoryPort, TaskRepositoryPort } from "../../../domain/index.js";
 
 export interface RootAgentDeps {
   taskRepository: TaskRepositoryPort;

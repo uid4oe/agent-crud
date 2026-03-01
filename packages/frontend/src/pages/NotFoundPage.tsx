@@ -1,5 +1,5 @@
+import { ArrowLeft, Home } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
-import { Home, ArrowLeft } from "lucide-react";
 import { Button } from "../components/ui/button";
 import { ROUTES } from "../config";
 

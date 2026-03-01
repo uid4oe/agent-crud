@@ -1,9 +1,9 @@
-import { X, ListTodo, FileText, Target } from "lucide-react";
+import { FileText, ListTodo, Target, X } from "lucide-react";
 import { cn } from "../../lib/utils";
-import { useEntityPanel, type PanelDomain } from "./EntityPanelContext";
-import { PanelTasksView } from "./PanelTasksView";
-import { PanelNotesView } from "./PanelNotesView";
+import { type PanelDomain, useEntityPanel } from "./EntityPanelContext";
 import { PanelGoalsView } from "./PanelGoalsView";
+import { PanelNotesView } from "./PanelNotesView";
+import { PanelTasksView } from "./PanelTasksView";
 
 const TABS: { domain: PanelDomain; label: string; icon: typeof ListTodo }[] = [
   { domain: "tasks", label: "Tasks", icon: ListTodo },

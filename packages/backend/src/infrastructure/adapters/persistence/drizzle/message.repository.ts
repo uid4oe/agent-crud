@@ -1,11 +1,11 @@
-import { eq, asc } from "drizzle-orm";
-import { type DbClient } from "./client.js";
-import { messages } from "./schema.js";
+import { asc, eq } from "drizzle-orm";
 import {
-  Message,
   type CreateMessageProps,
+  Message,
   type MessageRepositoryPort,
 } from "../../../../domain/index.js";
+import { type DbClient } from "./client.js";
+import { messages } from "./schema.js";
 
 export class DrizzleMessageRepository implements MessageRepositoryPort {
   constructor(private readonly db: DbClient) {}

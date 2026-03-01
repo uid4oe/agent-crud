@@ -1,4 +1,4 @@
-import { useState, useRef, useMemo } from "react";
+import { useMemo, useRef, useState } from "react";
 import { trpc } from "../lib/trpc";
 import type { Message } from "../types";
 

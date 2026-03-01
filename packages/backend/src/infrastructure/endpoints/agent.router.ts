@@ -1,6 +1,6 @@
 import { z } from "zod";
-import { router, publicProcedure } from "./trpc.js";
 import type { ConversationService } from "../../domain/index.js";
+import { publicProcedure, router } from "./trpc.js";
 
 export function createAgentRouter(conversationService: ConversationService) {
   return router({

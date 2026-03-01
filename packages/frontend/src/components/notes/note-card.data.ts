@@ -1,4 +1,4 @@
-import { FileText, Lightbulb, BookOpen, Users, User } from "lucide-react";
+import { BookOpen, FileText, Lightbulb, User, Users } from "lucide-react";
 import type { NoteCategory } from "../../types";
 
 export const CATEGORY_CONFIG: Record<NoteCategory, { label: string; icon: typeof FileText; color: string }> = {

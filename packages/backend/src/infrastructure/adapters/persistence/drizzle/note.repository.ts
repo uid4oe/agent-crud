@@ -1,15 +1,15 @@
-import { eq, ilike, or, sql, desc, asc, and, count, inArray, type AnyColumn } from "drizzle-orm";
-import { type DbClient } from "./client.js";
-import { notes } from "./schema.js";
+import { type AnyColumn, and, asc, count, desc, eq, ilike, inArray, or, sql } from "drizzle-orm";
 import {
+  type CreateNoteProps,
   Note,
   type NoteCategory,
-  type CreateNoteProps,
-  type UpdateNoteProps,
   type NoteRepositoryPort,
-  type PaginationInput,
   type PaginatedResult,
+  type PaginationInput,
+  type UpdateNoteProps,
 } from "../../../../domain/index.js";
+import { type DbClient } from "./client.js";
+import { notes } from "./schema.js";
 
 export class DrizzleNoteRepository implements NoteRepositoryPort {
   constructor(private readonly db: DbClient) {}

@@ -1,10 +1,10 @@
-import { Pencil, Trash2, ExternalLink, Calendar } from "lucide-react";
+import { Calendar, ExternalLink, Pencil, Trash2 } from "lucide-react";
 import { Link } from "react-router-dom";
-import { Button } from "../ui/button";
-import { Badge } from "../ui/badge";
 import { cn, timeAgo } from "../../lib/utils";
-import { STATUS_CONFIG, PRIORITY_CONFIG, formatDueDate } from "./task-card.data";
 import type { Task, TaskStatus } from "../../types";
+import { Badge } from "../ui/badge";
+import { Button } from "../ui/button";
+import { formatDueDate, PRIORITY_CONFIG, STATUS_CONFIG } from "./task-card.data";
 
 export interface TaskCardProps {
   task: Task;

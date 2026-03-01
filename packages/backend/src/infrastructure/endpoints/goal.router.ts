@@ -1,11 +1,11 @@
 import { z } from "zod";
-import { router, publicProcedure } from "./trpc.js";
+import type { GoalCategory ,
+  GoalService, GoalStatus } from "../../domain/index.js";
 import {
-  GoalStatusValues,
   GoalCategoryValues,
+  GoalStatusValues,
 } from "../../domain/index.js";
-import type { GoalStatus, GoalCategory ,
-  GoalService} from "../../domain/index.js";
+import { publicProcedure, router } from "./trpc.js";
 
 const goalStatusSchema = z.enum(GoalStatusValues);
 const goalCategorySchema = z.enum(GoalCategoryValues);

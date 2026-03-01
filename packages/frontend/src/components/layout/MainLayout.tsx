@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
-import { Sidebar } from "./Sidebar";
 import { useKeyboardShortcuts } from "../../hooks";
+import { Sidebar } from "./Sidebar";
 
 export function MainLayout() {
   useKeyboardShortcuts();
