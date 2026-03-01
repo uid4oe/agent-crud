@@ -1,8 +1,8 @@
 import { useState, useMemo } from "react";
 import { Target } from "lucide-react";
 import { GoalKanbanBoard, GoalForm } from "../components/goals";
-import { PageError, EmptyFilterState, EmptyResourceState, DeleteDialog } from "../components/feedback";
-import { ResourcePageHeader, SearchInput, FilterSortBar } from "../components/shared";
+import { DeleteDialog, EmptyFilterState, EmptyResourceState } from "../components/feedback";
+import { ResourcePageLayout, ResourcePageHeader, SearchInput, FilterSortBar } from "../components/shared";
 import { useGoals } from "../hooks";
 import { GOAL_CATEGORY_OPTIONS } from "../config";
 import type { Goal } from "../types";
@@ -83,40 +83,17 @@ export function WellnessPage() {
     setDeleteGoal(null);
   };
 
-  if (isLoading) {
-    return (
-      <div className="space-y-6 p-6 md:p-8 max-w-7xl mx-auto w-full">
-        <div className="flex items-center justify-between pb-2 px-2">
-          <div>
-            <div className="h-8 w-28 bg-gray-100 rounded-lg animate-pulse" />
-            <div className="h-4 w-20 bg-gray-100 rounded mt-2 animate-pulse" />
-          </div>
-          <div className="h-11 w-32 bg-gray-100 rounded-full animate-pulse" />
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {[1, 2, 3].map((i) => (
-            <div key={i} className="rounded-2xl bg-gray-50 p-3 min-h-[200px]">
-              <div className="h-4 w-16 bg-gray-100 rounded animate-pulse mb-3" />
-              <div className="rounded-2xl border border-gray-100 p-5 space-y-3">
-                <div className="h-8 w-8 bg-gray-100 rounded-xl animate-pulse" />
-                <div className="h-4 w-3/4 bg-gray-100 rounded animate-pulse" />
-                <div className="h-3 w-full bg-gray-50 rounded animate-pulse" />
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  }
-
-  if (error) return <PageError resourceName="goals" message={error.message} />;
-
   const goalCount = goals?.length || 0;
   const filteredCount = filteredGoals?.length || 0;
   const hasActiveFilter = search !== "" || !!filterCategory;
 
   return (
-    <div className="space-y-6 h-full overflow-y-auto p-6 pt-14 md:pt-8 md:p-8 max-w-7xl mx-auto w-full">
+    <ResourcePageLayout
+      isLoading={isLoading}
+      error={error}
+      resourceName="goals"
+      skeletonColumns={3}
+    >
       <ResourcePageHeader
         title="Wellness"
         noun="goal"
@@ -156,7 +133,7 @@ export function WellnessPage() {
         <EmptyFilterState onClear={() => { setSearch(""); setFilterCategory(undefined); }} />
       ) : (
         <GoalKanbanBoard
-          goals={filteredGoals!}
+          goals={filteredGoals ?? []}
           onEdit={setEditGoal}
           onDelete={setDeleteGoal}
           onToggleMilestone={toggleMilestone}
@@ -202,6 +179,6 @@ export function WellnessPage() {
         resourceType="Goal"
         resourceName={deleteGoal?.title}
       />
-    </div>
+    </ResourcePageLayout>
   );
 }
