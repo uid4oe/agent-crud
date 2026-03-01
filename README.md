@@ -4,128 +4,100 @@
 
 Users manage tasks, notes, and goals through Kanban boards, forms, and search **or** by chatting with specialized AI agents that understand their data. Both interfaces share the same domain logic, validation, and data layer.
 
-This project explores a different approach: **a router-and-delegate architecture where each domain has its own specialized agent with scoped tools, isolated mutation rights, and a purpose-built system prompt.**
+**[Demo Replay](https://agent-crud.web.app)** — pre-recorded demo deployed on Firebase, run it locally to test it out fully, instructions are available below.
 
-```
-You: "Add a task to buy groceries, high priority, due friday"
-TaskAgent: Created task "Buy groceries" — priority high, due 2026-03-07.
 
-You: "What should I focus on today?"
-TaskAgent: You have 3 pending tasks. I'd prioritize "Fix login bug" (high, overdue)...
+https://github.com/user-attachments/assets/e18241e0-38de-4a57-8937-b9e2c2fad483
 
-You: "Create a fitness goal to run a 5K, with weekly milestones"
-GoalAgent: Created goal "Run a 5K" with 4 milestones. First up: Week 1 — Run 1K.
-```
 
 ---
 
-## Why Multi-Agent — And Why It Matters
+## Architecture
+
+**Router-and-delegate multi-agent system** — each domain has its own specialized agent with scoped tools, isolated mutation rights, and a purpose-built system prompt. Every interaction is traced with Langfuse.
+
+```
+User message
+    |
+    v
++-------------------------------------+
+|         Router Agent (LLM)          |
+|                                     |
+|  - Classifies user intent           |
+|  - Prioritizes action over keywords |
+|  - Handles ambiguity, negation,     |
+|    follow-ups, multi-domain reqs    |
+|  - Delegates -- never refuses       |
++------+----------+----------+--------+
+       |          |          |
++------v---+ +----v-----+ +--v-------+
+|TaskAgent | |NoteAgent | |GoalAgent |
+|          | |          | |          |
+| 8 tools  | | 8 tools  | | 8 tools  |
+| +4 cross | | +4 cross | | +4 cross |
++------+---+ +----+-----+ +--+-------+
+       |          |          |
++------v----------v----------v-------------+
+|          Domain Services                  |
+|  TaskService - NoteService - GoalService  |
++--------------------+---------------------+
+                     |
++--------------------v---------------------+
+|       Drizzle ORM -> PostgreSQL 16       |
++------------------------------------------+
+```
+
+### Why Multi-Agent
 
 - **Focused context windows** — Each agent only sees tools and instructions relevant to its domain. A TaskAgent never sees goal-related tools, so it can't hallucinate milestone operations.
-- **Intent-based routing, not keyword matching** — The Router Agent classifies what the user wants to *do*, not what words they used. "Note to self: buy milk" routes to NoteAgent (record information). "My goal is to buy groceries" routes to TaskAgent (it's a to-do, not a life goal).
-- **Cross-domain awareness without cross-domain mutation** — Each agent can *read* across all domains for context ("find tasks related to my fitness goal"), but can only *write* to its own. This prevents a single misrouted request from corrupting unrelated data.
-- **Clean separation of concerns** — Adding a new domain (e.g., Habits) means creating a new agent, tools, and prompt — no changes to existing agents. The router picks it up automatically via its sub-agent descriptions.
-
----
-
-## Multi-Agent Architecture
-
-```
-┌─────────────────────────────────────────────────────────┐
-│                                                         │
-│   User message                                          │
-│       │                                                 │
-│       ▼                                                 │
-│   ┌─────────────────────────────────────┐               │
-│   │         Router Agent (LLM)          │               │
-│   │                                     │               │
-│   │  • Classifies user intent           │               │
-│   │  • Prioritizes action over keywords │               │
-│   │  • Handles ambiguity, negation,     │               │
-│   │    follow-ups, multi-domain reqs    │               │
-│   │  • Delegates — never refuses        │               │
-│   └──────┬──────────┬──────────┬────────┘               │
-│          │          │          │                        │
-│   ┌──────▼───┐ ┌────▼─────┐ ┌──▼───────┐                │
-│   │TaskAgent │ │NoteAgent │ │GoalAgent │                │
-│   │          │ │          │ │          │                │
-│   │ 8 tools  │ │ 8 tools  │ │ 8 tools  │                │
-│   │ +4 cross │ │ +4 cross │ │ +4 cross │                │
-│   └──────┬───┘ └────┬─────┘ └──┬───────┘                │
-│          │          │          │                        │
-│   ┌──────▼──────────▼──────────▼───────────┐            │
-│   │         Domain Services                │            │
-│   │   TaskService · NoteService · GoalSvc  │            │
-│   └──────────────────┬─────────────────────┘            │
-│                      │                                  │
-│   ┌──────────────────▼─────────────────────┐            │
-│   │      Drizzle ORM → PostgreSQL 16       │            │
-│   └────────────────────────────────────────┘            │
-│                                                         │
-└─────────────────────────────────────────────────────────┘
-```
+- **Intent-based routing, not keyword matching** — The Router Agent classifies what the user wants to *do*, not what words they used. "Note to self: buy milk" routes to NoteAgent. "My goal is to buy groceries" routes to TaskAgent (it's a to-do, not a life goal).
+- **Cross-domain awareness without cross-domain mutation** — Each agent can *read* across all domains for context, but can only *write* to its own.
+- **Clean separation of concerns** — Adding a new domain means creating a new agent, tools, and prompt — no changes to existing agents. The router picks it up automatically.
 
 ### How Routing Works
-
-The Router Agent uses an **intent-over-keywords decision tree** with explicit rules for ambiguous cases:
 
 | User says | Routed to | Why |
 |-----------|-----------|-----|
 | "Add a task to buy milk" | TaskAgent | Direct task creation |
-| "Note to self: buy milk" | NoteAgent | Idiom — means "record this information" |
+| "Note to self: buy milk" | NoteAgent | Idiom — means "record this" |
 | "My goal is to finish the report" | TaskAgent | Colloquial "goal" — actually a to-do |
 | "I want to get better at running" | GoalAgent | Long-term aspiration |
 | "Translate that to Spanish" | *Previous agent* | Follow-up — applies to last action |
-| "Create a task AND a note about it" | TaskAgent | Primary domain; uses cross-domain tools for the note |
+| "Create a task AND a note about it" | TaskAgent | Primary domain; cross-domain tools for the note |
 | "Don't create a task, just make a note" | NoteAgent | Negation — routes to the *wanted* domain |
 
-The router never refuses. When intent is ambiguous, it delegates to its best guess rather than asking clarifying questions — because the worst case is a polite response from the wrong agent, not a dead end.
+The router never refuses. When intent is ambiguous, it delegates to its best guess rather than asking clarifying questions.
 
-### Agent Tool System
+### Agent Tools
 
-Each domain agent has **8 core tools** plus **4 cross-domain tools** (32 tools system-wide):
+Each domain agent has **8 core tools** + **4 cross-domain tools** (32 tools system-wide):
 
-**Core tools per agent:**
-| Tool | Description |
-|------|-------------|
-| `list_{domain}` | List items with optional filters (status, category, tags) |
-| `get_{domain}_by_id` | Retrieve a specific item |
-| `search_{domain}` | Full-text search across title/description/content |
-| `get_{domain}_statistics` | Aggregated stats (counts, breakdowns, completion rates) |
-| `create_{domain}` | Create with full field support |
-| `update_{domain}` | Partial update any field |
-| `delete_{domain}` | Delete by ID |
-| *domain-specific* | `bulk_update_tasks`, `get_all_tags`, `toggle_milestone` |
+| Core tools | Cross-domain tools |
+|---|---|
+| `list`, `get_by_id`, `search`, `statistics` | `search_other_{domain}` (read-only) |
+| `create`, `update`, `delete`, domain-specific | `create_other_{domain}` (write) |
 
-**Cross-domain tools** (per agent):
-| Tool | Permission |
-|------|-----------|
-| `search_other_{domain}` | Read-only — find related items in other domains |
-| `create_other_{domain}` | Write — handle compound requests ("create a task AND a note") |
-
-Tools are thin wrappers around domain repository methods, wrapped with `safeExecute` for graceful error handling. All business logic lives in the domain layer.
+Tools are thin wrappers around domain services, wrapped with `safeExecute` for graceful error handling.
 
 ### Streaming & Entity Cards
 
-Chat responses stream over WebSocket via the Google ADK event system:
+Chat responses stream via the Google ADK event system. When an agent creates or modifies data, the tool response is parsed into a **structured entity card** (task-card, note-card, goal-card) and rendered inline in the conversation. A **routing badge** shows which agent handled the request.
 
-```
-ADK Event Stream → Extract text chunks → Extract entity cards → Yield to frontend
-```
+### Observability with Langfuse
 
-When an agent creates or modifies data, the tool response is parsed into a **structured entity card** (task-card, note-card, goal-card) and rendered inline in the conversation. Users see exactly what changed — title, status, priority, milestones — without leaving the chat.
-
-A **routing badge** is also injected before the first text chunk so the UI can show which agent handled the request.
-
-### Observability
-
-Every chat interaction is traced with **Langfuse** — input, output, agent routing, latency. Traces flush asynchronously with a 3-second timeout so observability never blocks the response. Langfuse is optional; the system runs fine without it.
+Every chat interaction is traced end-to-end with **[Langfuse](https://langfuse.com)** — input, output, agent routing, tool calls, and latency. Traces flush asynchronously with a 3-second timeout so observability never blocks the response. Run Langfuse locally via `pnpm infra:up` (included in the infra stack) or connect to Langfuse Cloud. Langfuse is optional.
 
 ---
 
-### Why tRPC
+## Tech Stack
 
-End-to-end type safety without codegen. Zod schemas validate at every boundary. The frontend knows at compile time exactly what the backend accepts and returns.
+| Layer | Tech |
+|-------|------|
+| **Frontend** | React 19, Vite, Tailwind CSS, TanStack Query, React Hook Form + Zod |
+| **Backend** | Express.js, tRPC v11, Drizzle ORM, PostgreSQL 16 |
+| **AI** | Google Gemini via @google/adk |
+| **Observability** | Langfuse (tracing, latency, tool calls) |
+| **Type Safety** | End-to-end via tRPC — Zod validates at every boundary |
 
 ---
 
@@ -133,9 +105,8 @@ End-to-end type safety without codegen. Zod schemas validate at every boundary. 
 
 **AI Chat**
 - Multi-agent system with intent-based routing
-- Streaming responses over WebSocket
+- Streaming responses with inline entity cards
 - Cross-domain awareness with scoped mutation rights
-- Inline entity cards for created/modified items
 - Persistent conversation history with auto-generated titles
 - Conversation summarization for long chats
 
@@ -149,8 +120,7 @@ End-to-end type safety without codegen. Zod schemas validate at every boundary. 
 **Demo Mode**
 - Built-in automated demo that showcases the full agent system
 - Click "Demo Mode" in the bottom-right of the chat page to start
-- Runs 12 sequential prompts: CRUD, goals with milestones, cross-domain queries, batch operations, search, and conversational intelligence
-- Auto-scrolls and highlights the affected entity card in the side panel after each action
+- 12 sequential prompts: CRUD, goals with milestones, cross-domain queries, batch operations, search, and conversational intelligence
 - Pause, resume, skip, or stop at any time
 
 ---
@@ -163,20 +133,22 @@ End-to-end type safety without codegen. Zod schemas validate at every boundary. 
 - pnpm
 - Docker
 - [Google Gemini API key](https://aistudio.google.com/apikey)
+- Langfuse (optional — for tracing, runs locally via `pnpm infra:up` or use [Langfuse Cloud](https://langfuse.com))
 
 ### Setup
 
 ```bash
-git clone https://github.com/your-username/agent-crud.git && cd agent-crud
+git clone https://github.com/uid4oe/agent-crud.git && cd agent-crud
 pnpm install
 
 # Configure environment
 cp .env.example .env
 # Add your GEMINI_API_KEY to .env
+# Optionally add LANGFUSE_SECRET_KEY, LANGFUSE_PUBLIC_KEY, LANGFUSE_BASE_URL
 
-# Start PostgreSQL, run migrations, launch dev servers
+# Start PostgreSQL + Langfuse, push schema, launch dev servers
 pnpm infra:up
-pnpm db:migrate
+pnpm db:push
 pnpm dev
 ```
 
@@ -194,8 +166,9 @@ pnpm db:seed    # Optional: populate with sample data
 |---------|-------------|
 | `pnpm dev` | Start backend (3000) + frontend (5173) |
 | `pnpm build` | Build both packages |
-| `pnpm infra:up` | Start PostgreSQL via Docker |
-| `pnpm infra:down` | Stop PostgreSQL |
+| `pnpm infra:up` | Start PostgreSQL + Langfuse via Docker |
+| `pnpm infra:down` | Stop PostgreSQL + Langfuse |
+| `pnpm db:push` | Push schema directly to database (dev) |
 | `pnpm db:migrate` | Run Drizzle migrations |
 | `pnpm db:generate` | Generate migrations from schema changes |
 | `pnpm db:seed` | Seed database with sample data |
