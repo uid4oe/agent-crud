@@ -13,21 +13,39 @@ const CARD_TYPE_TO_DOMAIN: Record<string, DetectedDomain> = {
   "goal-card": "goals",
 };
 
+export interface DetectedEntities {
+  domain: DetectedDomain;
+  entityIds: string[];
+}
+
 export function detectDomainFromContent(content: string): DetectedDomain | null {
+  const result = detectEntitiesFromContent(content);
+  return result?.domain ?? null;
+}
+
+export function detectEntitiesFromContent(content: string): DetectedEntities | null {
   const segments = parseMessageContent(content);
+  let domain: DetectedDomain | null = null;
+  const entityIds: string[] = [];
+
   for (const seg of segments) {
     if (seg.type !== "text") {
-      return CARD_TYPE_TO_DOMAIN[seg.type] ?? null;
+      const d = CARD_TYPE_TO_DOMAIN[seg.type];
+      if (d) {
+        if (!domain) domain = d;
+        if (seg.data?.id) entityIds.push(seg.data.id);
+      }
     }
   }
-  return null;
+
+  return domain ? { domain, entityIds } : null;
 }
 
 interface ChatOptions {
   onConversationChange?: (id: string | null) => void;
   initialConversationId?: string | null;
   useStreaming?: boolean;
-  onEntitiesDetected?: (domain: DetectedDomain) => void;
+  onEntitiesDetected?: (domain: DetectedDomain, entityIds: string[]) => void;
 }
 
 export function useChat(options: ChatOptions = {}) {
@@ -64,8 +82,8 @@ export function useChat(options: ChatOptions = {}) {
       utils.goal.list.invalidate();
 
       if (finalContent && onEntitiesDetected) {
-        const domain = detectDomainFromContent(finalContent);
-        if (domain) onEntitiesDetected(domain);
+        const detected = detectEntitiesFromContent(finalContent);
+        if (detected) onEntitiesDetected(detected.domain, detected.entityIds);
       }
     },
     onError: () => {
@@ -88,8 +106,8 @@ export function useChat(options: ChatOptions = {}) {
       utils.goal.list.invalidate();
 
       if (data.message && onEntitiesDetected) {
-        const domain = detectDomainFromContent(data.message);
-        if (domain) onEntitiesDetected(domain);
+        const detected = detectEntitiesFromContent(data.message);
+        if (detected) onEntitiesDetected(detected.domain, detected.entityIds);
       }
     },
   });

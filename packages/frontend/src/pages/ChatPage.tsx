@@ -4,7 +4,9 @@ import { MessageList, ChatInput, WelcomeScreen, CardActionsProvider } from "../c
 import { EntityPanelProvider, useEntityPanel } from "../components/chat/EntityPanelContext";
 import { EntityPanel } from "../components/chat/EntityPanel";
 import { EntityPanelDrawer } from "../components/chat/EntityPanelDrawer";
+import { DemoController } from "../components/chat/DemoController";
 import { useChat, detectDomainFromContent } from "../hooks";
+import { useDemoMode } from "../hooks/useDemoMode";
 import { useIsMobile } from "../hooks/useIsMobile";
 import { cn } from "../lib/utils";
 import { ROUTES } from "../config";
@@ -13,7 +15,7 @@ function ChatPageInner() {
   const { conversationId } = useParams<{ conversationId?: string }>();
   const navigate = useNavigate();
   const isMobile = useIsMobile();
-  const { isOpen: isPanelOpen, openPanel, closePanel } = useEntityPanel();
+  const { isOpen: isPanelOpen, openPanel, closePanel, highlightEntity } = useEntityPanel();
 
   const handleConversationChange = useCallback(
     (id: string | null) => {
@@ -37,7 +39,19 @@ function ChatPageInner() {
   } = useChat({
     initialConversationId: conversationId,
     onConversationChange: handleConversationChange,
-    onEntitiesDetected: (domain) => openPanel(domain),
+    onEntitiesDetected: (domain, entityIds) => {
+      openPanel(domain);
+      if (entityIds.length > 0) {
+        highlightEntity(entityIds[0]);
+      }
+    },
+  });
+
+  const demo = useDemoMode({
+    sendMessage,
+    startNewConversation,
+    isSending: isSending || isCreating,
+    activeConversationId,
   });
 
   // On load / refresh: scan last model message to restore panel
@@ -64,7 +78,7 @@ function ChatPageInner() {
         <div className="flex-1 overflow-y-auto w-full">
           {activeConversationId ? (
             <div className={cn(
-              "mx-auto px-4 md:px-6 py-4",
+              "mx-auto px-4 md:px-6 py-4 transition-[max-width] duration-300 ease-out",
               isPanelOpen ? "max-w-lg" : "max-w-3xl"
             )}>
               <MessageList
@@ -81,12 +95,12 @@ function ChatPageInner() {
 
         {/* Chat Input Area */}
         <div className={cn(
-          "shrink-0 px-4 md:px-6 pb-3 mx-auto w-full",
+          "shrink-0 px-4 md:px-6 pb-3 mx-auto w-full transition-[max-width] duration-300 ease-out",
           isPanelOpen ? "max-w-lg" : "max-w-3xl"
         )}>
           <ChatInput
             onSend={activeConversationId ? sendMessage : startNewConversation}
-            disabled={isSending || isCreating}
+            disabled={isSending || isCreating || demo.isActive}
             autoFocus
           />
         </div>
@@ -94,6 +108,20 @@ function ChatPageInner() {
 
       {/* Entity Panel — desktop: side panel, mobile: drawer */}
       {isMobile ? <EntityPanelDrawer /> : <EntityPanel />}
+
+      {/* Demo Mode Controller */}
+      <DemoController
+        isActive={demo.isActive}
+        isPaused={demo.isPaused}
+        currentStep={demo.currentStep}
+        totalSteps={demo.totalSteps}
+        currentPrompt={demo.currentPrompt}
+        onStart={demo.start}
+        onStop={demo.stop}
+        onPause={demo.pause}
+        onResume={demo.resume}
+        onSkip={demo.skipToNext}
+      />
     </div>
   );
 }

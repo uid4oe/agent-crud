@@ -13,3 +13,5 @@ export {
   GOAL_CATEGORIES,
   GOAL_CATEGORY_OPTIONS,
 } from "./constants";
+export { DEMO_STEPS } from "./demo-prompts";
+export type { DemoStep } from "./demo-prompts";
