@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef, useEffect } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { DEMO_STEPS } from "../config/demo-prompts";
 
 interface UseDemoModeOptions {
@@ -17,8 +17,11 @@ export function useDemoMode({
 	const [isActive, setIsActive] = useState(false);
 	const [currentStep, setCurrentStep] = useState(0);
 	const [isPaused, setIsPaused] = useState(false);
-	const waitingForResponse = useRef(false);
 	const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+	// Track whether the AI has started responding (isSending went true at least once)
+	const hasStartedRef = useRef(false);
+	const waitingForResponse = useRef(false);
 
 	const totalSteps = DEMO_STEPS.length;
 	const currentPrompt = isActive ? DEMO_STEPS[currentStep] : null;
@@ -29,6 +32,7 @@ export function useDemoMode({
 			timerRef.current = null;
 		}
 		waitingForResponse.current = false;
+		hasStartedRef.current = false;
 	}, []);
 
 	const stop = useCallback(() => {
@@ -44,10 +48,10 @@ export function useDemoMode({
 		setCurrentStep(0);
 		setIsPaused(false);
 
-		// Kick off step 0: create a new conversation with first prompt
 		const firstStep = DEMO_STEPS[0];
 		if (firstStep) {
 			waitingForResponse.current = true;
+			hasStartedRef.current = false;
 			startNewConversation(firstStep.prompt);
 		}
 	}, [cleanup, startNewConversation]);
@@ -64,6 +68,15 @@ export function useDemoMode({
 		setIsPaused(false);
 	}, []);
 
+	const sendNextStep = useCallback((stepIndex: number) => {
+		const step = DEMO_STEPS[stepIndex];
+		if (step && activeConversationId) {
+			waitingForResponse.current = true;
+			hasStartedRef.current = false;
+			sendMessage(step.prompt);
+		}
+	}, [activeConversationId, sendMessage]);
+
 	const skipToNext = useCallback(() => {
 		cleanup();
 		const nextStep = currentStep + 1;
@@ -73,44 +86,40 @@ export function useDemoMode({
 		}
 		setCurrentStep(nextStep);
 		setIsPaused(false);
+		sendNextStep(nextStep);
+	}, [currentStep, stop, cleanup, sendNextStep]);
 
-		// Send next prompt immediately
-		const step = DEMO_STEPS[nextStep];
-		if (step && activeConversationId) {
-			waitingForResponse.current = true;
-			sendMessage(step.prompt);
-		}
-	}, [currentStep, totalSteps, stop, cleanup, activeConversationId, sendMessage]);
-
-	// Watch for response completion and advance to next step
+	// Track isSending transitions: must go true→false to count as "response complete"
 	useEffect(() => {
-		if (!isActive || isPaused || !waitingForResponse.current) return;
+		if (!isActive || !waitingForResponse.current) return;
 
-		// Response just finished
-		if (!isSending && waitingForResponse.current) {
-			waitingForResponse.current = false;
-
-			const step = DEMO_STEPS[currentStep];
-			const nextStep = currentStep + 1;
-
-			if (nextStep >= totalSteps) {
-				// Demo complete — wait a beat then stop
-				timerRef.current = setTimeout(() => stop(), 2000);
-				return;
-			}
-
-			// Schedule next prompt after delay
-			timerRef.current = setTimeout(() => {
-				if (!activeConversationId) return;
-				setCurrentStep(nextStep);
-				const nextPromptData = DEMO_STEPS[nextStep];
-				if (nextPromptData) {
-					waitingForResponse.current = true;
-					sendMessage(nextPromptData.prompt);
-				}
-			}, step?.delayAfterResponse ?? 3000);
+		if (isSending) {
+			hasStartedRef.current = true;
+			return;
 		}
-	}, [isActive, isPaused, isSending, currentStep, totalSteps, activeConversationId, sendMessage, stop]);
+
+		// isSending is false — only act if it was previously true
+		if (!hasStartedRef.current) return;
+
+		// Response complete
+		waitingForResponse.current = false;
+		hasStartedRef.current = false;
+
+		if (isPaused) return;
+
+		const step = DEMO_STEPS[currentStep];
+		const nextStep = currentStep + 1;
+
+		if (nextStep >= totalSteps) {
+			timerRef.current = setTimeout(() => stop(), 2000);
+			return;
+		}
+
+		timerRef.current = setTimeout(() => {
+			setCurrentStep(nextStep);
+			sendNextStep(nextStep);
+		}, step?.delayAfterResponse ?? 3000);
+	}, [isActive, isPaused, isSending, currentStep, sendNextStep, stop]);
 
 	// Cleanup on unmount
 	useEffect(() => cleanup, [cleanup]);
