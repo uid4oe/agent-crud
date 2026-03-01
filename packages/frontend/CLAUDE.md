@@ -8,6 +8,7 @@ React 19 + TypeScript frontend with tRPC for type-safe API communication and AI 
 pnpm dev        # Dev server on port 5173
 pnpm build      # Type check + production build
 pnpm lint       # ESLint
+pnpm format     # Sort imports (Biome, from root)
 pnpm preview    # Preview production build
 ```
 

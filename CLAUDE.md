@@ -101,6 +101,8 @@ pnpm dev                          # Both packages in parallel
 pnpm --filter backend dev         # Backend only
 pnpm --filter frontend dev        # Frontend only
 pnpm build                        # Build both packages
+pnpm format                       # Sort imports (Biome)
+pnpm format:check                 # Check import sorting (CI)
 
 # Database
 pnpm db:migrate                   # Run migrations
@@ -178,6 +180,7 @@ src/
 - **Frontend**: relative imports, `cn()` for Tailwind, CVA for variants
 - **Domain errors** — typed errors extending `AppError`
 - **Value objects** — `as const` pattern for statuses/categories
+- **Import sorting** — Biome (`pnpm format`) — auto-sorts on save via VS Code extension
 - **Forms** — Zod schema + React Hook Form + zodResolver
 
 ## API (tRPC)

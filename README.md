@@ -45,14 +45,14 @@ GoalAgent: Created goal "Run a 5K" with 4 milestones. First up: Week 1 — Run 1
 │   │    follow-ups, multi-domain reqs    │               │
 │   │  • Delegates — never refuses        │               │
 │   └──────┬──────────┬──────────┬────────┘               │
-│          │          │          │                         │
-│   ┌──────▼───┐ ┌────▼─────┐ ┌─▼──────────┐             │
-│   │TaskAgent │ │NoteAgent │ │ GoalAgent  │             │
-│   │          │ │          │ │            │             │
-│   │ 8 tools  │ │ 8 tools  │ │ 8 tools   │             │
-│   │ +4 cross │ │ +4 cross │ │ +4 cross  │             │
-│   └──────┬───┘ └────┬─────┘ └─┬──────────┘             │
-│          │          │          │                         │
+│          │          │          │                        │
+│   ┌──────▼───┐ ┌────▼─────┐ ┌──▼───────┐                │
+│   │TaskAgent │ │NoteAgent │ │GoalAgent │                │
+│   │          │ │          │ │          │                │
+│   │ 8 tools  │ │ 8 tools  │ │ 8 tools  │                │
+│   │ +4 cross │ │ +4 cross │ │ +4 cross │                │
+│   └──────┬───┘ └────┬─────┘ └──┬───────┘                │
+│          │          │          │                        │
 │   ┌──────▼──────────▼──────────▼───────────┐            │
 │   │         Domain Services                │            │
 │   │   TaskService · NoteService · GoalSvc  │            │
@@ -199,7 +199,9 @@ pnpm db:seed    # Optional: populate with sample data
 | `pnpm db:migrate` | Run Drizzle migrations |
 | `pnpm db:generate` | Generate migrations from schema changes |
 | `pnpm db:seed` | Seed database with sample data |
-| `pnpm db:reset` | Reset database |
+| `pnpm db:reset` | Drop all tables and recreate schema from scratch |
+| `pnpm format` | Sort imports across codebase (via Biome) |
+| `pnpm format:check` | Check import sorting without modifying (for CI) |
 
 ---
 

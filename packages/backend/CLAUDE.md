@@ -12,6 +12,7 @@ pnpm db:migrate       # Run database migrations
 pnpm db:generate      # Generate migrations from schema changes
 pnpm db:push          # Push schema directly to DB (dev only)
 pnpm db:seed          # Seed sample data
+pnpm format           # Sort imports (Biome, from root)
 ```
 
 ## Architecture

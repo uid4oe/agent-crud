@@ -15,9 +15,14 @@
 		"db:reset": "pnpm --filter backend db:reset",
 		"db:seed": "pnpm --filter backend db:seed",
 		"stop": "pnpm infra:down",
-		"compose": "docker compose -f docker-compose.yml up -d"
+		"compose": "docker compose -f docker-compose.yml up -d",
+		"format": "biome check --write .",
+		"format:check": "biome check ."
 	},
 	"engines": {
 		"node": ">=18.0.0"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^2.4.4"
 	}
 }
