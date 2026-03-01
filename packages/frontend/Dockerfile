@@ -27,6 +27,7 @@ COPY packages/frontend ./packages/frontend
 COPY packages/backend/package.json ./packages/backend/
 COPY package.json pnpm-workspace.yaml ./
 WORKDIR /app/packages/frontend
+ENV VITE_API_URL=/trpc
 RUN pnpm build
 
 FROM nginx:alpine AS runner
