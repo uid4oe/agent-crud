@@ -1,9 +1,9 @@
 import { LlmAgent } from "@google/adk";
-import type { NoteRepositoryPort, TaskRepositoryPort, GoalRepositoryPort } from "../../../../domain/index.js";
-import { createNoteTools } from "../tools/note.tools.js";
-import { createCrossDomainTools } from "../tools/cross-domain.tools.js";
-import { injectToolsTable } from "../tools/tool-helpers.js";
+import type { GoalRepositoryPort, NoteRepositoryPort, TaskRepositoryPort } from "../../../../domain/index.js";
 import { NOTE_AGENT_SYSTEM_PROMPT } from "../prompts/note.prompt.js";
+import { createCrossDomainTools } from "../tools/cross-domain.tools.js";
+import { createNoteTools } from "../tools/note.tools.js";
+import { injectToolsTable } from "../tools/tool-helpers.js";
 
 export function createNoteAgent(
   noteRepository: NoteRepositoryPort,
