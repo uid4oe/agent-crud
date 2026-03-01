@@ -11,7 +11,7 @@ export function WelcomeScreen({ onNewChat, isCreating }: WelcomeScreenProps) {
 		<div className="h-full flex flex-col items-center justify-center p-6 md:p-8">
 			{/* Hero */}
 			<div className="w-full max-w-4xl flex flex-col items-center mb-10">
-				<h1 className="text-4xl md:text-5xl font-medium bg-gradient-to-r from-[#4285F4] via-[#9B72CB] to-[#D96570] text-transparent bg-clip-text leading-tight tracking-tight">
+				<h1 className="text-4xl md:text-5xl font-medium bg-gradient-to-r from-indigo-500 via-purple-400 to-pink-400 text-transparent bg-clip-text leading-tight tracking-tight">
 					Hello,
 				</h1>
 				<h1 className="text-3xl md:text-4xl font-medium text-ink-faded leading-tight tracking-tight mt-1">
