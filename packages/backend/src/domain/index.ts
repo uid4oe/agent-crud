@@ -1,15 +1,14 @@
-// Entities
-export { Task, type TaskProps, type CreateTaskProps, type UpdateTaskProps } from "./entities/task.entity.js";
-export { Conversation, type ConversationProps, type CreateConversationProps } from "./entities/conversation.entity.js";
-export { Message, type MessageProps, type CreateMessageProps } from "./entities/message.entity.js";
+// Shared (types, errors, common ports)
+export * from "./shared/index.js";
 
-// Value Objects
-export { type TaskStatus, TaskStatusValues, isValidTaskStatus } from "./value-objects/task-status.vo.js";
-export { type MessageRole, MessageRoleValues, isValidMessageRole } from "./value-objects/message-role.vo.js";
+// Task Domain
+export * from "./task/index.js";
 
-// Ports
-export * from "./ports/index.js";
+// Note Domain
+export * from "./note/index.js";
 
-// Services
-export * from "./services/task/index.js";
-export * from "./services/conversation/index.js";
+// Goal Domain
+export * from "./goal/index.js";
+
+// Conversation Domain
+export * from "./conversation/index.js";
