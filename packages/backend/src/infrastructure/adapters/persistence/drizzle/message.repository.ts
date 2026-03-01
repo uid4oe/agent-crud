@@ -1,11 +1,17 @@
 import { eq, asc } from "drizzle-orm";
-import { db } from "./client.js";
+import { type DbClient } from "./client.js";
 import { messages } from "./schema.js";
-import { Message, CreateMessageProps, MessageRepositoryPort } from "../../../../domain/index.js";
+import {
+  Message,
+  type CreateMessageProps,
+  type MessageRepositoryPort,
+} from "../../../../domain/index.js";
 
 export class DrizzleMessageRepository implements MessageRepositoryPort {
+  constructor(private readonly db: DbClient) {}
+
   async findByConversationId(conversationId: string): Promise<Message[]> {
-    const results = await db
+    const results = await this.db
       .select()
       .from(messages)
       .where(eq(messages.conversationId, conversationId))
@@ -14,8 +20,16 @@ export class DrizzleMessageRepository implements MessageRepositoryPort {
     return results.map(this.toDomain);
   }
 
+  async findById(id: string): Promise<Message | null> {
+    const results = await this.db
+      .select()
+      .from(messages)
+      .where(eq(messages.id, id));
+    return results[0] ? this.toDomain(results[0]) : null;
+  }
+
   async create(props: CreateMessageProps): Promise<Message> {
-    const results = await db
+    const results = await this.db
       .insert(messages)
       .values({
         conversationId: props.conversationId,
@@ -27,8 +41,22 @@ export class DrizzleMessageRepository implements MessageRepositoryPort {
     return this.toDomain(results[0]);
   }
 
+  async updateContent(id: string, content: string): Promise<Message | null> {
+    const results = await this.db
+      .update(messages)
+      .set({ content })
+      .where(eq(messages.id, id))
+      .returning();
+    return results[0] ? this.toDomain(results[0]) : null;
+  }
+
+  async deleteMessage(id: string): Promise<boolean> {
+    await this.db.delete(messages).where(eq(messages.id, id));
+    return true;
+  }
+
   async deleteByConversationId(conversationId: string): Promise<boolean> {
-    await db.delete(messages).where(eq(messages.conversationId, conversationId));
+    await this.db.delete(messages).where(eq(messages.conversationId, conversationId));
     return true;
   }
 

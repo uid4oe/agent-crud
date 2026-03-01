@@ -1,15 +1,10 @@
-import dotenv from "dotenv";
-import path from "path";
-import { fileURLToPath } from "url";
 import { drizzle } from "drizzle-orm/postgres-js";
 import { migrate } from "drizzle-orm/postgres-js/migrator";
 import postgres from "postgres";
-
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-dotenv.config({ path: path.resolve(__dirname, "../../../../../../.env") });
+import { config } from "../../../config/config.js";
 
 const runMigrations = async () => {
-  const connectionString = process.env.DATABASE_URL;
+  const connectionString = config.database.url;
 
   if (!connectionString) {
     console.error("DATABASE_URL environment variable is required");
