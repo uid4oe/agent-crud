@@ -24,7 +24,7 @@ const GOAL_SORT_OPTIONS: SortOption[] = [
   { value: "targetDate", label: "Target Date" },
 ];
 
-export function WellnessPage() {
+export function GoalsPage() {
   const [createOpen, setCreateOpen] = useState(false);
   const [editGoal, setEditGoal] = useState<Goal | null>(null);
   const [deleteGoal, setDeleteGoal] = useState<Goal | null>(null);
@@ -95,7 +95,7 @@ export function WellnessPage() {
       skeletonColumns={3}
     >
       <ResourcePageHeader
-        title="Wellness"
+        title="Goals"
         noun="goal"
         totalCount={goalCount}
         filteredCount={filteredCount}
@@ -125,7 +125,7 @@ export function WellnessPage() {
         <EmptyResourceState
           icon={Target}
           title="No goals yet"
-          description="Get started by creating your first wellness goal to track your fitness, nutrition, mindfulness, and sleep habits."
+          description="Get started by creating your first goal to track your fitness, nutrition, mindfulness, and sleep habits."
           createLabel="Create Goal"
           onCreateClick={() => setCreateOpen(true)}
         />

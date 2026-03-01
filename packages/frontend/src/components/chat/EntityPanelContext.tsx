@@ -9,6 +9,9 @@ interface EntityPanelState {
   closePanel: () => void;
   setDomain: (domain: PanelDomain) => void;
   highlightEntity: (entityId: string) => void;
+  filteredEntityIds: Partial<Record<PanelDomain, string[]>> | null;
+  setFilteredEntityIds: (ids: Partial<Record<PanelDomain, string[]>> | null) => void;
+  clearFilter: () => void;
 }
 
 const EntityPanelContext = createContext<EntityPanelState | null>(null);
@@ -25,8 +28,13 @@ const HIGHLIGHT_DURATION = 2200;
 export function EntityPanelProvider({ children }: { children: ReactNode }) {
   const [isOpen, setIsOpen] = useState(false);
   const [activeDomain, setActiveDomain] = useState<PanelDomain | null>(null);
+  const [filteredEntityIds, setFilteredEntityIds] = useState<Partial<Record<PanelDomain, string[]>> | null>(null);
   const highlightTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const prevHighlightEl = useRef<Element | null>(null);
+
+  const clearFilter = useCallback(() => {
+    setFilteredEntityIds(null);
+  }, []);
 
   const openPanel = useCallback((domain: PanelDomain) => {
     setActiveDomain(domain);
@@ -35,11 +43,13 @@ export function EntityPanelProvider({ children }: { children: ReactNode }) {
 
   const closePanel = useCallback(() => {
     setIsOpen(false);
-  }, []);
+    clearFilter();
+  }, [clearFilter]);
 
   const setDomain = useCallback((domain: PanelDomain) => {
     setActiveDomain(domain);
-  }, []);
+    clearFilter();
+  }, [clearFilter]);
 
   const highlightEntity = useCallback((entityId: string) => {
     // Clear previous highlight
@@ -73,7 +83,7 @@ export function EntityPanelProvider({ children }: { children: ReactNode }) {
   }, []);
 
   return (
-    <EntityPanelContext.Provider value={{ isOpen, activeDomain, openPanel, closePanel, setDomain, highlightEntity }}>
+    <EntityPanelContext.Provider value={{ isOpen, activeDomain, openPanel, closePanel, setDomain, highlightEntity, filteredEntityIds, setFilteredEntityIds, clearFilter }}>
       {children}
     </EntityPanelContext.Provider>
   );

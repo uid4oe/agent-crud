@@ -121,7 +121,7 @@ export function createGoalTools(
 
   const createGoal = new FunctionTool({
     name: "create_goal",
-    description: "Create a new wellness goal with optional milestones",
+    description: "Create a new goal with optional milestones",
     parameters: params(
       z.object({
         title: z.string().describe("The title of the goal"),

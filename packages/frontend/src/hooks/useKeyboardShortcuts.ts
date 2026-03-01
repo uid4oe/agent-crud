@@ -51,14 +51,14 @@ export function useKeyboardShortcuts(options: KeyboardShortcutOptions = {}) {
       // Navigation shortcuts (only when not in input)
       if (!isInput && !isMod) {
         if (e.key === "g") {
-          // g + c = go to chat, g + t = tasks, g + n = notes, g + w = wellness
+          // g + c = go to chat, g + t = tasks, g + n = notes, g + w = goals
           const handleSecondKey = (e2: KeyboardEvent) => {
             document.removeEventListener("keydown", handleSecondKey);
             switch (e2.key) {
               case "c": navigate(ROUTES.CHAT); break;
               case "t": navigate(ROUTES.TASKS); break;
               case "n": navigate(ROUTES.NOTES); break;
-              case "w": navigate(ROUTES.WELLNESS); break;
+              case "w": navigate(ROUTES.GOALS); break;
             }
           };
           document.addEventListener("keydown", handleSecondKey, { once: true });

@@ -6,7 +6,7 @@ Every agent below can also translate, rewrite, summarise, analyse, and perform a
 
 - **TaskAgent** — manages actionable items: tasks, todos, reminders, errands, things to do. Also handles language tasks on tasks (translate, rewrite, expand, etc.)
 - **NoteAgent** — manages information: notes, ideas, meeting notes, references, recipes, facts to remember. Also handles language tasks on notes (translate, rewrite, brainstorm, etc.)
-- **GoalAgent** — manages goals and milestones: aspirations, long-term objectives, progress tracking (any category including career, financial, learning, fitness, wellness). Also handles language tasks on goals.
+- **GoalAgent** — manages goals and milestones: aspirations, long-term objectives, progress tracking (any category including career, financial, learning, fitness). Also handles language tasks on goals.
 
 ## Routing — Intent over Keywords
 

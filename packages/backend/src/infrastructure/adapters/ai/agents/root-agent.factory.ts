@@ -1,6 +1,7 @@
 import { LlmAgent } from "@google/adk";
 
 import { ROUTER_SYSTEM_PROMPT } from "../prompts/router.prompt.js";
+import { withCurrentDate } from "../tools/tool-helpers.js";
 import type { RootAgentDeps } from "../types.js";
 import { createGoalAgent } from "./goal-agent.factory.js";
 import { createNoteAgent } from "./note-agent.factory.js";
@@ -24,7 +25,7 @@ export function createRootAgent(deps: RootAgentDeps): LlmAgent {
     name: "RouterAgent",
     model: deps.routerModel ?? deps.model,
     description: "Root routing agent that delegates to specialized sub-agents.",
-    instruction: ROUTER_SYSTEM_PROMPT,
+    instruction: withCurrentDate(ROUTER_SYSTEM_PROMPT),
     subAgents: [taskAgent, noteAgent, goalAgent],
   });
 }

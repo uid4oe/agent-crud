@@ -339,7 +339,7 @@ export const Sidebar = memo(function Sidebar() {
 						{expanded && <span className="text-sm font-medium">Notes</span>}
 					</NavLink>
 					<NavLink
-						to={ROUTES.WELLNESS}
+						to={ROUTES.GOALS}
 						onClick={closeMobileDrawer}
 						className={({ isActive }) =>
 							cn(
@@ -347,15 +347,15 @@ export const Sidebar = memo(function Sidebar() {
 								expanded
 									? "w-full px-3"
 									: "w-10 h-10 px-0 justify-center mx-auto",
-								isActive || location.pathname.startsWith(ROUTES.WELLNESS)
+								isActive || location.pathname.startsWith(ROUTES.GOALS)
 									? "bg-sidebar-active text-sidebar-active-foreground"
 									: "hover:bg-black/5 text-gray-700",
 							)
 						}
-						title={!expanded ? "Wellness" : undefined}
+						title={!expanded ? "Goals" : undefined}
 					>
 						<Target className="h-5 w-5 shrink-0" />
-						{expanded && <span className="text-sm font-medium">Wellness</span>}
+						{expanded && <span className="text-sm font-medium">Goals</span>}
 					</NavLink>
 				</div>
 			</div>

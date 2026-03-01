@@ -8,7 +8,7 @@ export const ROUTES = {
   CHAT_CONVERSATION: "/chat/:conversationId",
   TASKS: "/tasks",
   NOTES: "/notes",
-  WELLNESS: "/wellness",
+  GOALS: "/goals",
 } as const;
 
 export const TASK_STATUSES: Record<Uppercase<TaskStatus>, TaskStatus> = {

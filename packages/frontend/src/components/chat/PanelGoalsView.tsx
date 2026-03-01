@@ -65,7 +65,7 @@ export function PanelGoalsView() {
             <EmptyResourceState
               icon={Target}
               title="No goals yet"
-              description="Get started by creating your first wellness goal to track your fitness, nutrition, mindfulness, and sleep habits."
+              description="Get started by creating your first goal to track your fitness, nutrition, mindfulness, and sleep habits."
               createLabel="Create Goal"
               onCreateClick={() => setCreateOpen(true)}
             />

@@ -3,7 +3,7 @@ import type { GoalRepositoryPort, NoteRepositoryPort, TaskRepositoryPort } from 
 import { TASK_AGENT_SYSTEM_PROMPT } from "../prompts/task.prompt.js";
 import { createCrossDomainTools } from "../tools/cross-domain.tools.js";
 import { createTaskTools } from "../tools/task.tools.js";
-import { injectToolsTable } from "../tools/tool-helpers.js";
+import { injectToolsTable, withCurrentDate } from "../tools/tool-helpers.js";
 
 export function createTaskAgent(
   taskRepository: TaskRepositoryPort,
@@ -26,7 +26,7 @@ export function createTaskAgent(
     model,
     description:
       "Handles everything related to tasks, todos, and reminders: creating, listing, searching, updating status, editing, deleting, bulk updates, and statistics. Full language abilities (translate, rewrite, summarise, analyse). Can also create notes/goals and search across domains for cross-referencing.",
-    instruction: injectToolsTable(TASK_AGENT_SYSTEM_PROMPT, tools),
+    instruction: withCurrentDate(injectToolsTable(TASK_AGENT_SYSTEM_PROMPT, tools)),
     tools,
     outputKey: "task_agent_response",
     disallowTransferToParent: true,

@@ -46,3 +46,14 @@ export function buildToolsTable(tools: ToolMeta[]): string {
 export function injectToolsTable(prompt: string, tools: ToolMeta[]): string {
   return prompt.replace("{{TOOLS_TABLE}}", buildToolsTable(tools));
 }
+
+/** Prepend a "Today's date" line so the model resolves relative dates correctly. */
+export function withCurrentDate(prompt: string): string {
+  const today = new Date().toLocaleDateString("en-US", {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+  return `Today's date: ${today}\n\n${prompt}`;
+}

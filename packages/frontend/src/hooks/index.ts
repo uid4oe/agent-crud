@@ -1,3 +1,4 @@
+export type { DetectedEntities } from "./useChat";
 export { detectDomainFromContent, detectEntitiesFromContent, useChat } from "./useChat";
 export { useChatStream } from "./useChatStream";
 export { useDemoMode } from "./useDemoMode";

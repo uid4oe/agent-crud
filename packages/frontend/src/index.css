@@ -142,3 +142,29 @@ a, button, [role="button"] {
   outline: 2px solid rgba(123, 97, 181, 0.6);
   outline-offset: 2px;
 }
+
+/* Entity card entrance animation */
+@keyframes card-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-card-in {
+  animation: card-in 0.35s ease-out both;
+  animation-delay: var(--card-delay, 0ms);
+}
+
+/* Panel content fade on tab switch */
+@keyframes panel-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+.animate-panel-fade {
+  animation: panel-fade-in 0.25s ease-out;
+}

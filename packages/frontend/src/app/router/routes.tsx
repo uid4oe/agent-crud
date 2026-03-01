@@ -15,8 +15,8 @@ const TasksPage = lazy(() =>
 const NotesPage = lazy(() =>
 	import("../../pages/NotesPage").then((m) => ({ default: m.NotesPage })),
 );
-const WellnessPage = lazy(() =>
-	import("../../pages/WellnessPage").then((m) => ({ default: m.WellnessPage })),
+const GoalsPage = lazy(() =>
+	import("../../pages/GoalsPage").then((m) => ({ default: m.GoalsPage })),
 );
 const NotFoundPage = lazy(() =>
 	import("../../pages/NotFoundPage").then((m) => ({ default: m.NotFoundPage })),
@@ -89,11 +89,11 @@ export const router = createBrowserRouter([
 				),
 			},
 			{
-				path: "wellness",
+				path: "goals",
 				element: (
 					<RouteErrorBoundary>
 						<Suspense fallback={pageLoader}>
-							<WellnessPage />
+							<GoalsPage />
 						</Suspense>
 					</RouteErrorBoundary>
 				),

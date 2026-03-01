@@ -14,38 +14,57 @@ const CARD_TYPE_TO_DOMAIN: Record<string, DetectedDomain> = {
 };
 
 export interface DetectedEntities {
-  domain: DetectedDomain;
-  entityIds: string[];
+  primaryDomain: DetectedDomain;
+  entityIdsByDomain: Partial<Record<DetectedDomain, string[]>>;
 }
 
 export function detectDomainFromContent(content: string): DetectedDomain | null {
   const result = detectEntitiesFromContent(content);
-  return result?.domain ?? null;
+  return result?.primaryDomain ?? null;
 }
+
+const DOMAIN_KEYWORDS: { domain: DetectedDomain; patterns: RegExp }[] = [
+  { domain: "goals", patterns: /\b(goal|milestone|progress)\b/i },
+  { domain: "tasks", patterns: /\b(task|todo|to-do)\b/i },
+  { domain: "notes", patterns: /\b(note|notes)\b/i },
+];
 
 export function detectEntitiesFromContent(content: string): DetectedEntities | null {
   const segments = parseMessageContent(content);
-  let domain: DetectedDomain | null = null;
-  const entityIds: string[] = [];
+  let primaryDomain: DetectedDomain | null = null;
+  const entityIdsByDomain: Partial<Record<DetectedDomain, string[]>> = {};
 
   for (const seg of segments) {
     if (seg.type !== "text") {
       const d = CARD_TYPE_TO_DOMAIN[seg.type];
       if (d) {
-        if (!domain) domain = d;
-        if (seg.data?.id) entityIds.push(seg.data.id);
+        if (!primaryDomain) primaryDomain = d;
+        if (seg.data?.id) {
+          if (!entityIdsByDomain[d]) entityIdsByDomain[d] = [];
+          entityIdsByDomain[d]!.push(seg.data.id);
+        }
       }
     }
   }
 
-  return domain ? { domain, entityIds } : null;
+  // Fallback: infer domain from text keywords when no card tags found
+  if (!primaryDomain) {
+    for (const { domain, patterns } of DOMAIN_KEYWORDS) {
+      if (patterns.test(content)) {
+        primaryDomain = domain;
+        break;
+      }
+    }
+  }
+
+  return primaryDomain ? { primaryDomain, entityIdsByDomain } : null;
 }
 
 interface ChatOptions {
   onConversationChange?: (id: string | null) => void;
   initialConversationId?: string | null;
   useStreaming?: boolean;
-  onEntitiesDetected?: (domain: DetectedDomain, entityIds: string[]) => void;
+  onEntitiesDetected?: (detected: DetectedEntities) => void;
 }
 
 export function useChat(options: ChatOptions = {}) {
@@ -83,7 +102,7 @@ export function useChat(options: ChatOptions = {}) {
 
       if (finalContent && onEntitiesDetected) {
         const detected = detectEntitiesFromContent(finalContent);
-        if (detected) onEntitiesDetected(detected.domain, detected.entityIds);
+        if (detected) onEntitiesDetected(detected);
       }
     },
     onError: () => {
@@ -107,7 +126,7 @@ export function useChat(options: ChatOptions = {}) {
 
       if (data.message && onEntitiesDetected) {
         const detected = detectEntitiesFromContent(data.message);
-        if (detected) onEntitiesDetected(detected.domain, detected.entityIds);
+        if (detected) onEntitiesDetected(detected);
       }
     },
   });

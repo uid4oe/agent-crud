@@ -35,17 +35,21 @@ function DraggableItem<TColumn extends string>({
   id,
   columnKey,
   disabled,
+  index = 0,
   children,
 }: {
   id: string;
   columnKey: TColumn;
   disabled: boolean;
+  index?: number;
   children: ReactNode;
 }) {
   const { attributes, listeners, setNodeRef, isDragging } = useDraggable({
     id,
     data: { columnKey },
   });
+
+  const delay = Math.min(index * 60, 480);
 
   return (
     <div
@@ -54,10 +58,11 @@ function DraggableItem<TColumn extends string>({
       {...listeners}
       {...attributes}
       className={cn(
-        "touch-none transition-opacity duration-200",
+        "touch-none transition-opacity duration-200 animate-card-in",
         isDragging && "opacity-30",
         !disabled && "cursor-grab active:cursor-grabbing",
       )}
+      style={{ "--card-delay": `${delay}ms` } as React.CSSProperties}
     >
       {children}
     </div>
@@ -158,12 +163,13 @@ export function KanbanBoard<TItem, TColumn extends string>({
               )}
             >
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                {columnItems.map((item) => (
+                {columnItems.map((item, i) => (
                   <DraggableItem
                     key={getItemKey(item)}
                     id={getItemKey(item)}
                     columnKey={col.key}
                     disabled={!isDraggable}
+                    index={i}
                   >
                     {renderItem(item)}
                   </DraggableItem>
@@ -211,12 +217,13 @@ export function KanbanBoard<TItem, TColumn extends string>({
                   </p>
                 </div>
               ) : (
-                columnItems.map((item) => (
+                columnItems.map((item, i) => (
                   <DraggableItem
                     key={getItemKey(item)}
                     id={getItemKey(item)}
                     columnKey={col.key}
                     disabled={!isDraggable}
+                    index={i}
                   >
                     {renderItem(item)}
                   </DraggableItem>

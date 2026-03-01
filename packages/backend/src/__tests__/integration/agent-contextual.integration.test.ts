@@ -15,7 +15,7 @@
  *   D. Negation & correction handling
  *   E. Overlapping domain keywords
  *   F. Implicit intent (no domain words)
- *   G. Goal category boundaries (any category, not just wellness)
+ *   G. Goal category boundaries (any category, not just fitness)
  *   H. Relative & ordinal references
  *   I. Meta / capability questions
  *   J. Conversational niceties & undo
@@ -494,9 +494,9 @@ describe.skipIf(!HAS_API_KEY)("Agent Contextual Understanding", () => {
 
   describe("goal category handling", () => {
     it(
-      "routes career goals to GoalAgent (not just wellness)",
+      "routes career goals to GoalAgent (not just fitness)",
       async () => {
-        // Goal prompt now handles any category, not just wellness
+        // Goal prompt now handles any category, not just fitness
         const res = await h.adapter.chat(
           "s-goal-career",
           "Create a goal: Get promoted to senior engineer within the next year"
