@@ -41,6 +41,28 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        surface: {
+          DEFAULT: "var(--surface)",
+          hover: "var(--surface-hover)",
+          code: "var(--surface-code)",
+        },
+        purple: {
+          DEFAULT: "var(--purple)",
+          foreground: "var(--purple-foreground)",
+          hover: "var(--purple-hover)",
+          light: "var(--purple-light)",
+          text: "var(--purple-text)",
+        },
+        "sidebar-active": {
+          DEFAULT: "var(--sidebar-active)",
+          foreground: "var(--sidebar-active-foreground)",
+        },
+        ink: {
+          DEFAULT: "var(--ink)",
+          secondary: "var(--ink-secondary)",
+          faded: "var(--ink-faded)",
+          hover: "var(--ink-hover)",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",

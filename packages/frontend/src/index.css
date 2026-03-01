@@ -24,6 +24,38 @@
     --input: 220 13% 91%;
     --ring: 224 71% 4%;
     --radius: 0.5rem;
+
+    --surface: #F0F4F9;
+    --surface-hover: #E8EAED;
+    --surface-code: #E2E6EA;
+    --purple: #E8DEF8;
+    --purple-foreground: #1D192B;
+    --purple-hover: #EADDFF;
+    --purple-light: #F6F0FF;
+    --purple-text: #7B61B5;
+    --sidebar-active: #D3E3FD;
+    --sidebar-active-foreground: #041E49;
+    --ink: #1F1F1F;
+    --ink-secondary: #444746;
+    --ink-faded: #c4c7c5;
+    --ink-hover: #333333;
+  }
+
+  .dark {
+    --surface: #1E1E1E;
+    --surface-hover: #2A2A2A;
+    --surface-code: #2D2D2D;
+    --purple: #4A3880;
+    --purple-foreground: #E8DEF8;
+    --purple-hover: #5B4A91;
+    --purple-light: #2D2445;
+    --purple-text: #B89EE8;
+    --sidebar-active: #1A3A5C;
+    --sidebar-active-foreground: #D3E3FD;
+    --ink: #E0E0E0;
+    --ink-secondary: #A0A0A0;
+    --ink-faded: #6B6B6B;
+    --ink-hover: #D0D0D0;
   }
 }
 
@@ -39,18 +71,70 @@
   }
 }
 
-/* Status badge colors */
-.badge-pending {
-  background-color: #fef3c7;
-  color: #92400e;
+/* Chat message entrance animation */
+@keyframes message-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-.badge-in_progress {
-  background-color: #dbeafe;
-  color: #1e40af;
+.animate-message-in {
+  animation: message-in 0.3s ease-out;
 }
 
-.badge-completed {
-  background-color: #d1fae5;
-  color: #065f46;
+/* Entity panel slide-in animation */
+@keyframes panel-in {
+  from {
+    opacity: 0;
+    transform: translateX(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-panel-in {
+  animation: panel-in 0.25s ease-out;
+}
+
+/* Typing indicator */
+@keyframes typing-dot {
+  0%, 60%, 100% {
+    opacity: 0.3;
+    transform: scale(0.8);
+  }
+  30% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-typing-dot {
+  animation: typing-dot 1.4s ease-in-out infinite;
+}
+
+/* Hide scrollbar for sidebar */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Smooth focus transitions */
+input:focus-visible,
+textarea:focus-visible {
+  outline: none;
+}
+
+/* Disable tap highlight on mobile */
+a, button, [role="button"] {
+  -webkit-tap-highlight-color: transparent;
 }

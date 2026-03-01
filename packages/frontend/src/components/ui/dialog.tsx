@@ -1,4 +1,5 @@
 import * as React from "react";
+import { createPortal } from "react-dom";
 import { cn } from "../../lib/utils";
 
 interface DialogProps {
@@ -8,7 +9,10 @@ interface DialogProps {
 }
 
 const Dialog = ({ open, onOpenChange, children }: DialogProps) => {
+  const [mounted, setMounted] = React.useState(false);
+
   React.useEffect(() => {
+    setMounted(true);
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === "Escape") onOpenChange(false);
     };
@@ -22,21 +26,39 @@ const Dialog = ({ open, onOpenChange, children }: DialogProps) => {
     };
   }, [open, onOpenChange]);
 
-  if (!open) return null;
+  if (!open || !mounted) return null;
 
-  return (
-    <div className="fixed inset-0 z-50">
-      <div className="fixed inset-0 bg-black/50" onClick={() => onOpenChange(false)} />
-      <div className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-50">
+  return createPortal(
+    <div className="fixed inset-0 z-[100] flex items-center justify-center">
+      <div 
+        className="fixed inset-0 bg-black/40 backdrop-blur-sm animate-in fade-in duration-200"
+        onClick={() => onOpenChange(false)} 
+      />
+      <div className="relative z-[100] animate-in fade-in zoom-in-95 duration-200">
         {children}
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };
 
-const DialogContent = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
-  ({ className, children, ...props }, ref) => (
-    <div ref={ref} className={cn("w-full max-w-md bg-background p-6 rounded-lg border shadow-lg", className)} {...props}>
+const dialogSizes = {
+  sm: "w-[460px]",
+  md: "w-[580px]",
+  lg: "w-[720px]",
+};
+
+interface DialogContentProps extends React.HTMLAttributes<HTMLDivElement> {
+  size?: keyof typeof dialogSizes;
+}
+
+const DialogContent = React.forwardRef<HTMLDivElement, DialogContentProps>(
+  ({ className, children, size = "md", ...props }, ref) => (
+    <div
+      ref={ref}
+      className={cn("max-w-[calc(100vw-2rem)] bg-white p-8 rounded-[2rem] shadow-2xl overflow-hidden", dialogSizes[size], className)}
+      {...props}
+    >
       {children}
     </div>
   )
@@ -44,18 +66,18 @@ const DialogContent = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTML
 DialogContent.displayName = "DialogContent";
 
 const DialogHeader = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) => (
-  <div className={cn("space-y-1", className)} {...props} />
+  <div className={cn("space-y-2 mb-6", className)} {...props} />
 );
 
 const DialogTitle = React.forwardRef<HTMLHeadingElement, React.HTMLAttributes<HTMLHeadingElement>>(
   ({ className, ...props }, ref) => (
-    <h2 ref={ref} className={cn("text-lg font-semibold", className)} {...props} />
+    <h2 ref={ref} className={cn("text-[26px] leading-tight font-medium tracking-tight text-gray-900", className)} {...props} />
   )
 );
 DialogTitle.displayName = "DialogTitle";
 
 const DialogFooter = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) => (
-  <div className={cn("flex justify-end gap-2 mt-4", className)} {...props} />
+  <div className={cn("flex justify-end gap-3 mt-8", className)} {...props} />
 );
 
 export { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter };
