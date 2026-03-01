@@ -1,4 +1,5 @@
 import { Langfuse } from "langfuse";
+import { config } from "../../config/config.js";
 
 let langfuseInstance: Langfuse | null = null;
 
@@ -7,9 +8,7 @@ export function getLangfuse(): Langfuse | null {
     return langfuseInstance;
   }
 
-  const secretKey = process.env.LANGFUSE_SECRET_KEY;
-  const publicKey = process.env.LANGFUSE_PUBLIC_KEY;
-  const baseUrl = process.env.LANGFUSE_BASEURL || "http://localhost:3001";
+  const { secretKey, publicKey, baseUrl } = config.langfuse;
 
   if (!secretKey || !publicKey) {
     console.warn(
