@@ -21,4 +21,9 @@ coverage/
 *.tsbuildinfo
 
 # OS
-Thumbs.db.claude/
+Thumbs.db
+
+# Claude Code local state
+.claude/settings.local.json
+.claude/projects/
+.claude/todos/

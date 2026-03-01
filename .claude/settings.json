@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pnpm dev)",
+      "Bash(pnpm build)",
+      "Bash(pnpm install)",
+      "Bash(pnpm --filter backend *)",
+      "Bash(pnpm --filter frontend *)",
+      "Bash(pnpm infra:*)",
+      "Bash(pnpm db:*)",
+      "Bash(pnpm kill-ports)",
+      "Bash(pnpm test*)",
+      "Bash(pnpm lint*)",
+      "Bash(docker compose*)",
+      "Bash(curl *localhost*)"
+    ]
+  }
+}
