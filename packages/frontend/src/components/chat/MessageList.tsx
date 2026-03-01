@@ -1,7 +1,8 @@
 import { useEffect, useRef } from "react";
-import { Bot, User } from "lucide-react";
-import { cn } from "../../lib/utils";
 import type { Message } from "../../types";
+import { MessageBubble } from "./MessageBubble";
+import { AgentIcon } from "./AgentIcon";
+import { LoadingDots } from "./LoadingDots";
 
 interface MessageListProps {
   messages: Message[] | undefined;
@@ -13,56 +14,33 @@ export function MessageList({ messages, isSending }: MessageListProps) {
 
   useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+  }, [messages, isSending]);
 
   if (!messages?.length && !isSending) {
-    return (
-      <div className="flex flex-col items-center justify-center h-full text-center">
-        <Bot className="h-10 w-10 text-muted-foreground mb-3" />
-        <p className="text-muted-foreground text-sm">How can I help you?</p>
-      </div>
-    );
+    return null;
   }
 
+  const hasStreamingMessage = messages?.some((msg) => msg.isStreaming);
+
   return (
-    <>
+    <div className="space-y-8 flex flex-col w-full py-2">
       {messages?.map((msg) => (
-        <div key={msg.id} className={cn("flex gap-3", msg.role === "user" ? "justify-end" : "justify-start")}>
-          {msg.role === "model" && (
-            <div className="h-8 w-8 rounded-full bg-primary flex items-center justify-center flex-shrink-0">
-              <Bot className="h-4 w-4 text-primary-foreground" />
-            </div>
-          )}
-          <div
-            className={cn(
-              "max-w-[70%] rounded-lg px-4 py-2 text-sm",
-              msg.role === "user" ? "bg-primary text-primary-foreground" : "bg-muted"
-            )}
-          >
-            <p className="whitespace-pre-wrap">{msg.content}</p>
-          </div>
-          {msg.role === "user" && (
-            <div className="h-8 w-8 rounded-full bg-muted flex items-center justify-center flex-shrink-0">
-              <User className="h-4 w-4" />
-            </div>
-          )}
-        </div>
+        <MessageBubble
+          key={msg.id}
+          msg={msg}
+        />
       ))}
-      {isSending && (
-        <div className="flex gap-3">
-          <div className="h-8 w-8 rounded-full bg-primary flex items-center justify-center flex-shrink-0">
-            <Bot className="h-4 w-4 text-primary-foreground" />
-          </div>
-          <div className="bg-muted rounded-lg px-4 py-2">
-            <div className="flex gap-1">
-              <span className="h-2 w-2 rounded-full bg-foreground/40 animate-bounce" style={{ animationDelay: "0ms" }} />
-              <span className="h-2 w-2 rounded-full bg-foreground/40 animate-bounce" style={{ animationDelay: "150ms" }} />
-              <span className="h-2 w-2 rounded-full bg-foreground/40 animate-bounce" style={{ animationDelay: "300ms" }} />
-            </div>
+
+      {isSending && !hasStreamingMessage && (
+        <div className="flex justify-start w-full group animate-message-in">
+          <AgentIcon className="flex-shrink-0 mr-3 mt-1" pulse />
+          <div className="px-5 py-3 bg-transparent">
+            <LoadingDots />
           </div>
         </div>
       )}
+
       <div ref={endRef} />
-    </>
+    </div>
   );
 }

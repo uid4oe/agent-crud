@@ -1,0 +1,60 @@
+import { X, ListTodo, FileText, Target } from "lucide-react";
+import { cn } from "../../lib/utils";
+import { useEntityPanel, type PanelDomain } from "./EntityPanelContext";
+import { PanelTasksView } from "./PanelTasksView";
+import { PanelNotesView } from "./PanelNotesView";
+import { PanelGoalsView } from "./PanelGoalsView";
+
+const TABS: { domain: PanelDomain; label: string; icon: typeof ListTodo }[] = [
+  { domain: "tasks", label: "Tasks", icon: ListTodo },
+  { domain: "notes", label: "Notes", icon: FileText },
+  { domain: "goals", label: "Wellness", icon: Target },
+];
+
+export function EntityPanel() {
+  const { isOpen, activeDomain, closePanel, setDomain } = useEntityPanel();
+
+  if (!isOpen || !activeDomain) return null;
+
+  return (
+    <div className="w-[65%] min-w-[480px] h-full bg-white border-l border-gray-100 flex flex-col animate-panel-in rounded-r-[1.5rem] mr-2">
+      {/* Header */}
+      <div className="flex items-center justify-between px-4 pt-4 pb-2 shrink-0">
+        <div className="flex items-center gap-1 bg-gray-100 rounded-full p-0.5">
+          {TABS.map((tab) => {
+            const Icon = tab.icon;
+            return (
+              <button
+                key={tab.domain}
+                onClick={() => setDomain(tab.domain)}
+                className={cn(
+                  "flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium transition-all duration-200",
+                  activeDomain === tab.domain
+                    ? "bg-white text-ink shadow-sm"
+                    : "text-gray-500 hover:text-gray-700"
+                )}
+              >
+                <Icon className="h-3.5 w-3.5" />
+                <span>{tab.label}</span>
+              </button>
+            );
+          })}
+        </div>
+        <button
+          onClick={closePanel}
+          aria-label="Close panel"
+          className="p-1.5 rounded-full hover:bg-black/5 text-gray-400 hover:text-gray-600 transition-all duration-150 active:scale-90"
+        >
+          <X className="h-4 w-4" />
+        </button>
+      </div>
+
+      {/* Body */}
+      <div className="flex-1 overflow-hidden">
+        {activeDomain === "tasks" && <PanelTasksView />}
+        {activeDomain === "notes" && <PanelNotesView />}
+        {activeDomain === "goals" && <PanelGoalsView />}
+      </div>
+    </div>
+  );
+}
