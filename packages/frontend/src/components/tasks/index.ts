@@ -1,4 +1,3 @@
-export { TaskTable } from "./TaskTable";
+export { TaskCard } from "./TaskCard";
+export { TaskKanban } from "./TaskKanban";
 export { TaskForm } from "./TaskForm";
-export { DeleteTaskDialog } from "./DeleteTaskDialog";
-export { EmptyState } from "./EmptyState";

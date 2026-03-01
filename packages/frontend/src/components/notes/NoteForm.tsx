@@ -7,35 +7,33 @@ import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
 import { Select } from "../ui/select";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "../ui/dialog";
-import { taskFormSchema, type TaskFormSchema } from "../../lib/validation";
-import { TASK_STATUS_OPTIONS, TASK_STATUSES, TASK_PRIORITY_OPTIONS, TASK_PRIORITIES } from "../../config";
+import { noteFormSchema, type NoteFormSchema } from "../../lib/validation";
+import { NOTE_CATEGORY_OPTIONS, NOTE_CATEGORIES } from "../../config";
 
-interface TaskFormProps {
+interface NoteFormProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  onSubmit: (data: TaskFormSchema) => void;
-  initialData?: Partial<TaskFormSchema>;
+  onSubmit: (data: NoteFormSchema) => void;
+  initialData?: Partial<NoteFormSchema>;
   title: string;
   isLoading?: boolean;
 }
 
-const DEFAULT_VALUES: TaskFormSchema = {
+const DEFAULT_VALUES: NoteFormSchema = {
   title: "",
-  description: "",
-  status: TASK_STATUSES.PENDING,
-  priority: TASK_PRIORITIES.NORMAL,
-  dueDate: "",
+  content: "",
+  category: NOTE_CATEGORIES.GENERAL,
   tags: "",
 };
 
-export function TaskForm({
+export function NoteForm({
   open,
   onOpenChange,
   onSubmit,
   initialData,
   title,
   isLoading,
-}: TaskFormProps) {
+}: NoteFormProps) {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const {
@@ -43,8 +41,8 @@ export function TaskForm({
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<TaskFormSchema>({
-    resolver: zodResolver(taskFormSchema),
+  } = useForm<NoteFormSchema>({
+    resolver: zodResolver(noteFormSchema),
     defaultValues: { ...DEFAULT_VALUES, ...initialData },
   });
 
@@ -79,7 +77,7 @@ export function TaskForm({
                 (inputRef as React.MutableRefObject<HTMLInputElement | null>).current = e;
               }}
               id="title"
-              placeholder="What needs to be done?"
+              placeholder="Note title..."
               className={errors.title ? "border-red-300 focus:ring-red-500" : ""}
             />
             {errors.title && (
@@ -87,26 +85,27 @@ export function TaskForm({
             )}
           </div>
           <div className="space-y-1.5">
-            <label htmlFor="description" className="text-sm font-medium">
-              Description <span className="text-gray-400 font-normal">(optional)</span>
+            <label htmlFor="content" className="text-sm font-medium">
+              Content
             </label>
             <Textarea
-              {...register("description")}
-              id="description"
-              placeholder="Add more details..."
-              rows={3}
+              {...register("content")}
+              id="content"
+              placeholder="Write your note..."
+              rows={8}
+              className="resize-none"
             />
-            {errors.description && (
-              <p className="text-xs text-red-500">{errors.description.message}</p>
+            {errors.content && (
+              <p className="text-xs text-red-500">{errors.content.message}</p>
             )}
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-1.5">
-              <label htmlFor="status" className="text-sm font-medium">
-                Status
+              <label htmlFor="category" className="text-sm font-medium">
+                Category
               </label>
-              <Select {...register("status")} id="status">
-                {TASK_STATUS_OPTIONS.map((option) => (
+              <Select {...register("category")} id="category">
+                {NOTE_CATEGORY_OPTIONS.map((option) => (
                   <option key={option.value} value={option.value}>
                     {option.label}
                   </option>
@@ -114,37 +113,18 @@ export function TaskForm({
               </Select>
             </div>
             <div className="space-y-1.5">
-              <label htmlFor="priority" className="text-sm font-medium">
-                Priority
+              <label htmlFor="tags" className="text-sm font-medium">
+                Tags <span className="text-gray-400 font-normal">(comma separated)</span>
               </label>
-              <Select {...register("priority")} id="priority">
-                {TASK_PRIORITY_OPTIONS.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </Select>
+              <Input
+                {...register("tags")}
+                id="tags"
+                placeholder="work, important, todo..."
+              />
+              {errors.tags && (
+                <p className="text-xs text-red-500">{errors.tags.message}</p>
+              )}
             </div>
-          </div>
-          <div className="space-y-1.5">
-            <label htmlFor="dueDate" className="text-sm font-medium">
-              Due Date <span className="text-gray-400 font-normal">(optional)</span>
-            </label>
-            <Input
-              {...register("dueDate")}
-              id="dueDate"
-              type="date"
-            />
-          </div>
-          <div className="space-y-1.5">
-            <label htmlFor="tags" className="text-sm font-medium">
-              Tags <span className="text-gray-400 font-normal">(comma-separated)</span>
-            </label>
-            <Input
-              {...register("tags")}
-              id="tags"
-              placeholder="e.g. urgent, work, personal"
-            />
           </div>
           <DialogFooter>
             <Button
@@ -157,7 +137,7 @@ export function TaskForm({
             </Button>
             <Button type="submit" disabled={isLoading}>
               {isLoading && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
-              {isLoading ? "Saving..." : "Save Task"}
+              {isLoading ? "Saving..." : "Save Note"}
             </Button>
           </DialogFooter>
         </form>
