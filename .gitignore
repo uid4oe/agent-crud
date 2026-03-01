@@ -21,4 +21,4 @@ coverage/
 *.tsbuildinfo
 
 # OS
-Thumbs.db
+Thumbs.db.claude/
