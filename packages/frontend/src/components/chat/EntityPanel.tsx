@@ -14,10 +14,17 @@ const TABS: { domain: PanelDomain; label: string; icon: typeof ListTodo }[] = [
 export function EntityPanel() {
   const { isOpen, activeDomain, closePanel, setDomain } = useEntityPanel();
 
-  if (!isOpen || !activeDomain) return null;
+  if (!activeDomain) return null;
 
   return (
-    <div className="w-[65%] min-w-[480px] h-full bg-white border-l border-gray-100 flex flex-col animate-panel-in rounded-r-[1.5rem] mr-2">
+    <div
+      className={cn(
+        "h-full bg-white border-l border-gray-100 flex flex-col rounded-r-[1.5rem] mr-2 transition-all duration-300 ease-out",
+        isOpen
+          ? "w-[65%] min-w-[480px] opacity-100 translate-x-0"
+          : "w-0 min-w-0 opacity-0 translate-x-8 overflow-hidden pointer-events-none"
+      )}
+    >
       {/* Header */}
       <div className="flex items-center justify-between px-4 pt-4 pb-2 shrink-0">
         <div className="flex items-center gap-1 bg-gray-100 rounded-full p-0.5">

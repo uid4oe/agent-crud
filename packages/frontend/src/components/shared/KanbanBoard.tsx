@@ -50,6 +50,7 @@ function DraggableItem<TColumn extends string>({
   return (
     <div
       ref={setNodeRef}
+      data-entity-id={id}
       {...listeners}
       {...attributes}
       className={cn(
