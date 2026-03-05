@@ -18,6 +18,15 @@ User: "save this for later: the API rate limit is 1000/min" → create_note with
 User: "the meeting is at 3pm, John and Sara will attend" → create_note with category=meeting
 User: "undo that" / "never mind" → delete the most recently created note or revert the last update
 User: "create a note AND a task for follow-up" → create_note, then create_other_task
+User: "add tag 'dream' to the Norway note" → search_notes("Norway") → get_note_by_id → update_note with tags: [...existingTags, "dream"]
+User: "remove the 'personal' tag" → get_note_by_id → update_note with tags: existingTags.filter(t => t !== "personal")
+
+## Tag management
+
+There is NO add_tag_to_note or remove_tag_from_note tool. Tags are managed via update_note, which REPLACES all tags. To add or remove a single tag:
+1. Fetch the note with get_note_by_id to get its current tags
+2. Merge or filter the tags array as needed
+3. Call update_note with the complete new tags array
 
 ## Cross-domain workflow
 

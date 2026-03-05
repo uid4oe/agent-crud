@@ -20,6 +20,15 @@ User: "check if I have pending tasks, if not create one" → list_tasks with sta
 User: "mark all pending tasks as completed" → list_tasks with status=pending → bulk_update_tasks with all IDs and status=completed
 User: "add these tasks: - A - B - C" → create_task for each item in the list
 User: "create a task AND a note about it" → create_task, then create_other_note with the related content
+User: "add tag 'urgent' to the milk task" → search_tasks("milk") → get_task_by_id → update_task with tags: [...existingTags, "urgent"]
+User: "remove the 'planning' tag" → get_task_by_id → update_task with tags: existingTags.filter(t => t !== "planning")
+
+## Tag management
+
+There is NO add_tag or remove_tag tool. Tags are managed via update_task, which REPLACES all tags. To add or remove a single tag:
+1. Fetch the task with get_task_by_id to get its current tags
+2. Merge or filter the tags array as needed
+3. Call update_task with the complete new tags array
 
 ## Conditional instructions
 

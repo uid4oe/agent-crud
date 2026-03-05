@@ -213,7 +213,7 @@ export function createTaskTools(
         tags: z
           .array(z.string())
           .optional()
-          .describe("New tags for the task"),
+          .describe("Complete list of tags (replaces ALL existing tags). To add a tag, include all current tags plus the new one."),
       })
     ),
     execute: safeExecute(async (args: ToolArgs) => {

@@ -194,7 +194,7 @@ export function createNoteTools(
         tags: z
           .array(z.string())
           .optional()
-          .describe("New list of tags (replaces existing tags)"),
+          .describe("Complete list of tags (replaces ALL existing tags). To add a tag, include all current tags plus the new one. To remove a tag, include all current tags except the removed one."),
       })
     ),
     execute: safeExecute(async (args: ToolArgs) => {
