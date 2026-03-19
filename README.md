@@ -16,35 +16,17 @@ https://github.com/user-attachments/assets/e18241e0-38de-4a57-8937-b9e2c2fad483
 
 **Router-and-delegate multi-agent system** — each domain has its own specialized agent with scoped tools, isolated mutation rights, and a purpose-built system prompt. Every interaction is traced with Langfuse.
 
-```
-User message
-    |
-    v
-+-------------------------------------+
-|         Router Agent (LLM)          |
-|                                     |
-|  - Classifies user intent           |
-|  - Prioritizes action over keywords |
-|  - Handles ambiguity, negation,     |
-|    follow-ups, multi-domain reqs    |
-|  - Delegates -- never refuses       |
-+------+----------+----------+--------+
-       |          |          |
-+------v---+ +----v-----+ +--v-------+
-|TaskAgent | |NoteAgent | |GoalAgent |
-|          | |          | |          |
-| 8 tools  | | 8 tools  | | 8 tools  |
-| +4 cross | | +4 cross | | +4 cross |
-+------+---+ +----+-----+ +--+-------+
-       |          |          |
-+------v----------v----------v-------------+
-|          Domain Services                  |
-|  TaskService - NoteService - GoalService  |
-+--------------------+---------------------+
-                     |
-+--------------------v---------------------+
-|       Drizzle ORM -> PostgreSQL 16       |
-+------------------------------------------+
+```mermaid
+graph TD
+    User[User Message] --> Router[Router Agent]
+    Router -->|intent: task| TaskAgent[TaskAgent\n8 tools + 4 cross]
+    Router -->|intent: note| NoteAgent[NoteAgent\n8 tools + 4 cross]
+    Router -->|intent: goal| GoalAgent[GoalAgent\n8 tools + 4 cross]
+    TaskAgent --> Services[Domain Services\nTaskService · NoteService · GoalService]
+    NoteAgent --> Services
+    GoalAgent --> Services
+    Services --> DB[Drizzle ORM → PostgreSQL 16]
+    Router -.->|tracing| Langfuse[Langfuse]
 ```
 
 ### Why Multi-Agent
